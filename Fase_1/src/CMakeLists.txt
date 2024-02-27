@@ -22,13 +22,10 @@ add_library(
 
 # Biblioteca de parsing de XML
 add_library(
-	tinyXML
-	./tinyXML/tinystr.cpp
-	./tinyXML/tinyxmlerror.cpp
-	./tinyXML/tinyxmlparser.cpp
-	./tinyXML/tinystr.h
-	./tinyXML/tinyxml.h
-	./tinyXML/tinyxml.cpp
+	tinyxml2
+	./tinyxml2/tinyxml2.cpp
+	./tinyxml2/xmltest.cpp
+	./tinyxml2/tinyxml2.h
 )
 
 # Biblioteca de configuração do engine.
@@ -38,11 +35,11 @@ add_library(
 	./engine/config.hpp
 )
 
-target_link_libraries(config_lib tinyXML)
+target_link_libraries(config_lib tinyxml2)
 
 # Associa a biblioteca das figuras e dos pontos aos executáveis
 target_link_libraries(generator.exe utils_lib)
-target_link_libraries(engine.exe utils_lib tinyXML config_lib)
+target_link_libraries(engine.exe utils_lib tinyxml2 config_lib)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
