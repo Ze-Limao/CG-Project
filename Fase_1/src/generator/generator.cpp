@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//Função que gera o plano XZ	
+//Funï¿½ï¿½o que gera o plano XZ	
 Figura generatePlaneXZ(int length, int divisions, float h = 0.0f, int bottom = 0){
 	Figura chaoDaCozinha = newEmptyFigura();
 	if (chaoDaCozinha) {
@@ -31,11 +31,11 @@ Figura generatePlaneXZ(int length, int divisions, float h = 0.0f, int bottom = 0
 
 		for (int linha = 0; linha < divisions; linha++) {
 			for (int coluna = 0; coluna < divisions; coluna++) {
-				// Primeiro triângulo do quadrado
+				// Primeiro triï¿½ngulo do quadrado
 				addPonto(chaoDaCozinha, newPonto(arrX[0] + coluna * larguraAzulejo, h, arrZ[0]));
 				addPonto(chaoDaCozinha, newPonto(arrX[1] + coluna * larguraAzulejo, h, arrZ[1]));
 				addPonto(chaoDaCozinha, newPonto(arrX[2] + coluna * larguraAzulejo, h, arrZ[2]));
-				// Segundo triângulo do quadrado
+				// Segundo triï¿½ngulo do quadrado
 				addPonto(chaoDaCozinha, newPonto(arrX[1] + coluna * larguraAzulejo, h, arrZ[1]));
 				addPonto(chaoDaCozinha, newPonto(arrX[3] + coluna * larguraAzulejo, h, arrZ[3]));
 				addPonto(chaoDaCozinha, newPonto(arrX[2] + coluna * larguraAzulejo, h, arrZ[2]));
@@ -76,14 +76,14 @@ int main(int argc, char* argv[]) {
             //figura = generateCone(radius, height, slices, stacks);
         }
         else {
-            printf("Figura inválida\n");
+            printf("Figura invï¿½lida\n");
             return 1;
         }
         figuraToFile(figura, file_path);
         deleteFigura(figura);
     }
     else {
-        printf("Número de argumentos inválido.\n");
+        printf("Nï¿½mero de argumentos invï¿½lido.\n");
         return 1;
     }
     return 0;
