@@ -32,8 +32,14 @@ add_library(
 	./generator/cone.hpp
 )
 
+add_library(
+	config_lib
+	./engine/config.cpp
+	./engine/config.hpp	
+)
+
 target_link_libraries(generator utils_lib figures_lib)
-target_link_libraries(engine utils_lib figures_lib tinyXML2_lib)
+target_link_libraries(engine utils_lib figures_lib tinyXML2_lib config_lib)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
