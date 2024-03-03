@@ -1,89 +1,58 @@
-#include "../utils/figura.hpp"
-#include "../utils/ponto.hpp"
+#include "sphere.hpp"
+#include "plane.hpp"
+#include "box.hpp"
+#include "cone.hpp"
+
+#include "../utils/figure.hpp"
+
 #include <string.h>
 #include <stdlib.h>
-
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <stdio.h>
 
 using namespace std;
 
-//Fun��o que gera o plano XZ	
-Figura generatePlaneXZ(int length, int divisions, float h = 0.0f, int bottom = 0){
-	Figura chaoDaCozinha = newEmptyFigura();
-	if (chaoDaCozinha) {
-		float larguraTotal = (float)length / 2,
-			larguraAzulejo = (float)length / divisions,
-			x1 = -larguraTotal, z1 = -larguraTotal,
-			x2 = -larguraTotal, z2 = -larguraTotal + larguraAzulejo,
-			x3 = -larguraTotal + larguraAzulejo, z3 = -larguraTotal,
-			x4 = -larguraTotal + larguraAzulejo, z4 = -larguraTotal + larguraAzulejo;
 
-		float arrX[4] = { x1, x2, x3, x4 };
-		float arrZ[4] = { z1, z2, z3, z4 };
+int main(int argc, char *argv[]){
+    if (argc >= 5){
+        Figure* figure;
+        const char *file_path;
 
-		if(bottom){
-			arrX[1] = x3;
-			arrX[2] = x2;
-			arrZ[1] = z3;
-			arrZ[2] = z2;
-		}
-
-		for (int linha = 0; linha < divisions; linha++) {
-			for (int coluna = 0; coluna < divisions; coluna++) {
-				// Primeiro tri�ngulo do quadrado
-				addPonto(chaoDaCozinha, newPonto(arrX[0] + coluna * larguraAzulejo, h, arrZ[0]));
-				addPonto(chaoDaCozinha, newPonto(arrX[1] + coluna * larguraAzulejo, h, arrZ[1]));
-				addPonto(chaoDaCozinha, newPonto(arrX[2] + coluna * larguraAzulejo, h, arrZ[2]));
-				// Segundo tri�ngulo do quadrado
-				addPonto(chaoDaCozinha, newPonto(arrX[1] + coluna * larguraAzulejo, h, arrZ[1]));
-				addPonto(chaoDaCozinha, newPonto(arrX[3] + coluna * larguraAzulejo, h, arrZ[3]));
-				addPonto(chaoDaCozinha, newPonto(arrX[2] + coluna * larguraAzulejo, h, arrZ[2]));
-			}
-			arrZ[0] += larguraAzulejo;arrZ[1] += larguraAzulejo;arrZ[2] += larguraAzulejo;arrZ[3] += larguraAzulejo;
-		}
-	}
-
-	return chaoDaCozinha;
-}
-
-int main(int argc, char* argv[]) {
-    if (argc >= 5) {
-        Figura figura;
-        const char* file_path;
         if (strcmp(argv[1], "plane") == 0) {
-            int length = atoi(argv[2]), divisions = atoi(argv[3]);
+            int length = atoi(argv[2]), divisions = atoi(argv[3]); 
             file_path = argv[4];
 
-            figura = generatePlaneXZ(length, divisions);
+            figure = new Plane(length, divisions);
         }
         else if (strcmp(argv[1], "box") == 0) {
             int length = atoi(argv[2]), divisions = atoi(argv[3]);
             file_path = argv[4];
 
-            //figura = generateBox(length, divisions);
+            figure = new Box(length, divisions);
         }
         else if (strcmp(argv[1], "sphere") == 0) {
             int radius = atoi(argv[2]), slices = atoi(argv[3]), stacks = atoi(argv[4]);
             file_path = argv[5];
 
-            //figura = generateSphere(radius, slices, stacks);
+            figure = new Sphere(radius, slices, stacks); 
         }
         else if (strcmp(argv[1], "cone") == 0) {
             int radius = atoi(argv[2]), height = atoi(argv[3]), slices = atoi(argv[4]), stacks = atoi(argv[5]);
             file_path = argv[6];
 
-            //figura = generateCone(radius, height, slices, stacks);
+            figure = new Cone(radius, height, slices, stacks);
         }
         else {
-            printf("Figura inv�lida\n");
+            printf("Invalid\n");
             return 1;
         }
-        figuraToFile(figura, file_path);
-        deleteFigura(figura);
+
+        figure->generate_points();
+        figure->to_file(file_path);
+
+        delete figure;
     }
-    else {
-        printf("N�mero de argumentos inv�lido.\n");
+    else{
+        printf("Invalid number of arguments.\n");
         return 1;
     }
     return 0;

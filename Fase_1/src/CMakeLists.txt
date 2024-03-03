@@ -1,45 +1,39 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 
-# Project Name
-PROJECT(fase1)
-
+project(fase1)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Define os executáveis a serem construídos neste projecto
 add_executable(engine ./engine/engine.cpp)
 add_executable(generator ./generator/generator.cpp)
 
-# Biblioteca das figuras e dos pontos
 add_library(
-	utils_lib
-	./utils/ponto.cpp
-	./utils/ponto.hpp
-	./utils/figura.cpp
-	./utils/figura.hpp
-	./utils/list.cpp
-	./utils/list.hpp
+    utils_lib
+    ./utils/point.cpp
+    ./utils/point.hpp
+    ./utils/figure.cpp
+    ./utils/figure.hpp
 )
 
-# Biblioteca de parsing de XML
 add_library(
-	tinyxml2
-	./tinyxml2/tinyxml2.cpp
-	./tinyxml2/xmltest.cpp
-	./tinyxml2/tinyxml2.h
+    tinyXML2_lib
+    ./tinyXML2/tinyxml2.cpp
+    ./tinyXML2/tinyxml2.h
 )
 
-# Biblioteca de configuração do engine.
 add_library(
-	config_lib
-	./engine/config.cpp
-	./engine/config.hpp
+    figures_lib
+    ./generator/sphere.cpp
+    ./generator/sphere.hpp
+	./generator/box.cpp
+	./generator/box.hpp
+	./generator/plane.cpp
+	./generator/plane.hpp
+	./generator/cone.cpp
+	./generator/cone.hpp
 )
 
-target_link_libraries(config_lib tinyxml2)
-
-# Associa a biblioteca das figuras e dos pontos aos executáveis
-target_link_libraries(generator utils_lib)
-target_link_libraries(engine utils_lib tinyxml2 config_lib)
+target_link_libraries(generator utils_lib figures_lib)
+target_link_libraries(engine utils_lib figures_lib tinyXML2_lib)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
@@ -79,8 +73,8 @@ else (WIN32) #Linux and Mac
 	link_directories(${GLUT_LIBRARY_DIRS})
 	add_definitions(${GLUT_DEFINITIONS})
 	
-	target_link_libraries(generator ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} )
-	target_link_libraries(engine ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} )
+	target_link_libraries(generator.exe ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} )
+	target_link_libraries(engine.exe ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} )
 	if(NOT GLUT_FOUND)
 	   message(ERROR ": GLUT not found!")
 	endif(NOT GLUT_FOUND)
