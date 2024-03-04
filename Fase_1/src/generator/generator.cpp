@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 using namespace std;
 
@@ -54,8 +55,12 @@ int main(int argc, char *argv[]){
         figure->generate_points();
         figure->to_file(file_path, args, figure->get_type());
 
-        Figure* f = Figure::from_file(file_path);
-        //Sphere* sphere = dynamic_cast<Sphere*>(f);
+        /*Figure* f = Figure::from_file(file_path);
+
+        if (f->get_type() == Figure::FigureType::SPHERE) {
+            std::cout << "Sphere!" << std::endl;
+            Sphere* sphere = dynamic_cast<Sphere*>(f);
+        }*/
 
         args.clear();
         delete figure;
