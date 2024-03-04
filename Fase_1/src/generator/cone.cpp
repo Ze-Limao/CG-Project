@@ -53,9 +53,6 @@ void Cone::generate_points() {
 		}
 	}	
 }
-	points.clear();
-	// nothing here yet
-}
 
 Figure::FigureType Cone::get_type() {
 	return Figure::FigureType::CONE;

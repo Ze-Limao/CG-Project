@@ -8,7 +8,7 @@ void Box::generate_points() {
 	points.clear();
 
 	int divisions = grid + 1;
-	float step = length / grid;
+	float step = length / static_cast<float>(grid);
 
     // Bottom face (plane)
     for (int i = 0; i < divisions; i++) {
@@ -126,8 +126,6 @@ void Box::generate_points() {
             add_point(Point(x, y, z + step));
         }
     }
-}
-	
 }
 
 Figure::FigureType Box::get_type() {
