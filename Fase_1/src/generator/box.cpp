@@ -6,3 +6,7 @@ Box::~Box() {}
 void Box::generate_points() {
 	
 }
+
+Figure::FigureType Box::get_type() {
+	return Figure::FigureType::BOX;
+}

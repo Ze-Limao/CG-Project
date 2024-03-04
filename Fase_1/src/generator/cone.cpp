@@ -4,5 +4,10 @@ Cone::Cone(int radius, int height, int slices, int stacks, const std::vector<Poi
 Cone::~Cone() {}
 
 void Cone::generate_points() {
+	points.clear();
 	// nothing here yet
+}
+
+Figure::FigureType Cone::get_type() {
+	return Figure::FigureType::CONE;
 }

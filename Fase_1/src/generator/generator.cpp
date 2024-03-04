@@ -2,7 +2,6 @@
 #include "plane.hpp"
 #include "box.hpp"
 #include "cone.hpp"
-#include "factory.hpp"
 
 #include "../utils/figure.hpp"
 
@@ -18,6 +17,7 @@ int main(int argc, char *argv[]){
         Figure* figure;
         const char *file_path;
         vector<int> args;
+        Figure::FigureType type;
 
         if (strcmp(argv[1], "plane") == 0) {
             int length = atoi(argv[2]), divisions = atoi(argv[3]); 
@@ -25,6 +25,7 @@ int main(int argc, char *argv[]){
 
             args.insert(args.end(), { length, divisions });
             figure = new Plane(length, divisions);
+            type = figure->get_type();
         }
         else if (strcmp(argv[1], "box") == 0) {
             int length = atoi(argv[2]), grid = atoi(argv[3]);
@@ -32,6 +33,7 @@ int main(int argc, char *argv[]){
 
             args.insert(args.end(), { length, grid });
             figure = new Box(length, grid);
+            type = figure->get_type();
         }
         else if (strcmp(argv[1], "sphere") == 0) {
             int radius = atoi(argv[2]), slices = atoi(argv[3]), stacks = atoi(argv[4]);
@@ -39,6 +41,7 @@ int main(int argc, char *argv[]){
 
             args.insert(args.end(), { radius, slices, stacks });
             figure = new Sphere(radius, slices, stacks); 
+            type = figure->get_type();
         }
         else if (strcmp(argv[1], "cone") == 0) {
             int radius = atoi(argv[2]), height = atoi(argv[3]), slices = atoi(argv[4]), stacks = atoi(argv[5]);
@@ -46,6 +49,7 @@ int main(int argc, char *argv[]){
 
             args.insert(args.end(), { radius, height, slices, stacks });
             figure = new Cone(radius, height, slices, stacks);
+            type = figure->get_type();
         }
         else {
             printf("Invalid\n");
@@ -53,7 +57,10 @@ int main(int argc, char *argv[]){
         }
 
         figure->generate_points();
-        figure->to_file(file_path, args);
+        figure->to_file(file_path, args, type);
+
+        Figure* f = Figure::from_file(file_path);
+        //Sphere* sphere = dynamic_cast<Sphere*>(f);
 
         //Sphere* sphere = Factory::create<Sphere>(file_path);
 

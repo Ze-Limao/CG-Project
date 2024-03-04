@@ -68,3 +68,7 @@ void Sphere::generate_points() {
         }
     }
 }
+
+Figure::FigureType Sphere::get_type() {
+    return Figure::FigureType::SPHERE;
+}

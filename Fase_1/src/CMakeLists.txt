@@ -30,8 +30,6 @@ add_library(
 	./generator/plane.hpp
 	./generator/cone.cpp
 	./generator/cone.hpp
-	./generator/factory.cpp
-	./generator/factory.hpp
 )
 
 add_library(
