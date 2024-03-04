@@ -5,7 +5,7 @@
 
 class Plane : public Figure {
 public:
-    Plane(int length, int divisions, int height = 0);
+    Plane(int length, int divisions, int height = 0, const std::vector<Point>& points = {});
 
     ~Plane();
 

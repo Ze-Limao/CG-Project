@@ -5,7 +5,7 @@
 
 class Cone : public Figure {
 public:
-    Cone(int radius, int height, int slices, int stacks);
+    Cone(int radius, int height, int slices, int stacks, const std::vector<Point>& points = {});
 
     ~Cone();
 

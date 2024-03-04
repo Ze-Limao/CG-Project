@@ -5,7 +5,7 @@
 
 class Box : public Figure {
 public:
-    Box(int length, int grid);
+    Box(int length, int grid, const std::vector<Point>& pointsVector = {});
 
     ~Box();
 

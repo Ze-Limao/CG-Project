@@ -1,9 +1,11 @@
 #include "sphere.hpp"
 
-Sphere::Sphere(int radius, int slices, int stacks) : radius(radius), slices(slices), stacks(stacks) {}
+Sphere::Sphere(int radius, int slices, int stacks, const std::vector<Point>& points) : radius(radius), slices(slices), stacks(stacks), Figure(points) {}
 Sphere::~Sphere() {}
 
 void Sphere::generate_points() {
+    points.clear();
+
     float sector_step = (2 * PI) / slices;
     float theta, theta_next; // horizontal
 

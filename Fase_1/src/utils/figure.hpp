@@ -12,9 +12,10 @@ class Figure {
 public:
     std::vector<Point> points;
     Figure();
+    Figure(const std::vector<Point>& points);
     ~Figure();
     void add_point(const Point& point);
-    void to_file(const std::string& path);
+    void to_file(const std::string& path, const std::vector<int>& args);
     virtual void generate_points() = 0;
 };
 

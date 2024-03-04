@@ -5,7 +5,7 @@
 
 class Sphere : public Figure {
 public:
-    Sphere(int radius, int slices, int stacks);
+    Sphere(int radius, int slices, int stacks, const std::vector<Point>& points = {});
 
     ~Sphere();
 

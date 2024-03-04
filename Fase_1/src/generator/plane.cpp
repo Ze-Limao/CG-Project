@@ -1,9 +1,11 @@
 #include "plane.hpp"
 
-Plane::Plane(int length, int divisions, int height) : length(length), divisions(divisions), height(height) {}
+Plane::Plane(int length, int divisions, int height, const std::vector<Point>& points) : length(length), divisions(divisions), height(height), Figure(points) {}
 Plane::~Plane() {}
 
 void Plane::generate_points() {
+    points.clear();
+
     float dimension2 = static_cast<float>(length) / 2;
     float div_side = static_cast<float>(length) / divisions;
     float f_height = static_cast<float>(height);

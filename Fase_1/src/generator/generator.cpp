@@ -2,6 +2,7 @@
 #include "plane.hpp"
 #include "box.hpp"
 #include "cone.hpp"
+#include "factory.hpp"
 
 #include "../utils/figure.hpp"
 
@@ -16,29 +17,34 @@ int main(int argc, char *argv[]){
     if (argc >= 5){
         Figure* figure;
         const char *file_path;
+        vector<int> args;
 
         if (strcmp(argv[1], "plane") == 0) {
             int length = atoi(argv[2]), divisions = atoi(argv[3]); 
             file_path = argv[4];
 
+            args.insert(args.end(), { length, divisions });
             figure = new Plane(length, divisions);
         }
         else if (strcmp(argv[1], "box") == 0) {
-            int length = atoi(argv[2]), divisions = atoi(argv[3]);
+            int length = atoi(argv[2]), grid = atoi(argv[3]);
             file_path = argv[4];
 
-            figure = new Box(length, divisions);
+            args.insert(args.end(), { length, grid });
+            figure = new Box(length, grid);
         }
         else if (strcmp(argv[1], "sphere") == 0) {
             int radius = atoi(argv[2]), slices = atoi(argv[3]), stacks = atoi(argv[4]);
             file_path = argv[5];
 
+            args.insert(args.end(), { radius, slices, stacks });
             figure = new Sphere(radius, slices, stacks); 
         }
         else if (strcmp(argv[1], "cone") == 0) {
             int radius = atoi(argv[2]), height = atoi(argv[3]), slices = atoi(argv[4]), stacks = atoi(argv[5]);
             file_path = argv[6];
 
+            args.insert(args.end(), { radius, height, slices, stacks });
             figure = new Cone(radius, height, slices, stacks);
         }
         else {
@@ -47,8 +53,11 @@ int main(int argc, char *argv[]){
         }
 
         figure->generate_points();
-        figure->to_file(file_path);
+        figure->to_file(file_path, args);
 
+        //Sphere* sphere = Factory::create<Sphere>(file_path);
+
+        args.clear();
         delete figure;
     }
     else{
