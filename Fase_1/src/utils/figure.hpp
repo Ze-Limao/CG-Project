@@ -15,14 +15,14 @@ public:
     ~Figure();
 
     std::vector<Point> points;
-    enum FigureType { BOX = 0, CONE = 1, PLANE = 2, SPHERE = 3 };
+    enum FigureType { FIGURE = 0, BOX = 1, CONE = 2, PLANE = 3, SPHERE = 4 };
 
     void add_point(const Point& point);
     void to_file(const std::string& path, const std::vector<int>& args, FigureType type);
     static Figure* from_file(const std::string& path);
     
     virtual void generate_points() = 0;    
-    virtual FigureType get_type() = 0;
+    virtual FigureType get_type() { return FigureType::FIGURE; }
 };
 
 #endif // FIGURE_HPP
