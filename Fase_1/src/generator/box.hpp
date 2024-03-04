@@ -13,6 +13,7 @@ public:
     int grid;
 
     virtual void generate_points() override;
+    FigureType get_type() override;
 };
 
 #endif // BOX_HPP

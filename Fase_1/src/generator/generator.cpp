@@ -2,13 +2,13 @@
 #include "plane.hpp"
 #include "box.hpp"
 #include "cone.hpp"
-#include "factory.hpp"
 
 #include "../utils/figure.hpp"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 using namespace std;
 
@@ -53,9 +53,14 @@ int main(int argc, char *argv[]){
         }
 
         figure->generate_points();
-        figure->to_file(file_path, args);
+        figure->to_file(file_path, args, figure->get_type());
 
-        //Sphere* sphere = Factory::create<Sphere>(file_path);
+        /*Figure* f = Figure::from_file(file_path);
+
+        if (f->get_type() == Figure::FigureType::SPHERE) {
+            std::cout << "Sphere!" << std::endl;
+            Sphere* sphere = dynamic_cast<Sphere*>(f);
+        }*/
 
         args.clear();
         delete figure;

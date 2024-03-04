@@ -15,6 +15,7 @@ public:
     int stacks;
 
     virtual void generate_points() override;
+    FigureType get_type() override;
 };
 
 #endif // CONE_HPP

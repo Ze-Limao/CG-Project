@@ -14,6 +14,7 @@ public:
     int height;
 
     virtual void generate_points() override;
+    FigureType get_type() override;
 };
 
 #endif // PLANE_HPP

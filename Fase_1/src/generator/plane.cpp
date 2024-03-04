@@ -35,3 +35,7 @@ void Plane::generate_points() {
         }
     }
 }
+
+Figure::FigureType Plane::get_type() {
+    return Figure::FigureType::PLANE;
+}
