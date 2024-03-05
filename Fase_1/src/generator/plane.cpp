@@ -19,19 +19,20 @@ void Plane::generate_points() {
             float x2 = x1 + div_side;
 
             // 1 -- 3
-            // |  / |
-            // | /  |
+            // | \  |
+            // |  \ |
             // 2 -- 4
 
             // First triangle
             add_point(Point(x1, f_height, z1)); // 1
             add_point(Point(x1, f_height, z2)); // 2
-            add_point(Point(x2, f_height, z1)); // 3
+            add_point(Point(x2, f_height, z2)); // 4
 
             // Second triangle
-            add_point(Point(x1, f_height, z2)); // 2
             add_point(Point(x2, f_height, z2)); // 4
             add_point(Point(x2, f_height, z1)); // 3
+            add_point(Point(x1, f_height, z1)); // 1
+
         }
     }
 }

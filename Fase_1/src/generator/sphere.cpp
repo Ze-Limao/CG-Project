@@ -41,7 +41,7 @@ void Sphere::generate_points() {
             theta_next = (j + 1) * sector_step;
 
             //  p1--p4
-            //  |    |
+            //  | \ |
             //  p2--p3
 
             Point p1 = Point(xy      * sinf(theta),      y,      xy      * cosf(theta) ); // ((r * cos(phi)) * cos(theta), r * sin(phi), (r * cos(phi)) * sin(theta))
@@ -52,17 +52,17 @@ void Sphere::generate_points() {
             // criar uma "fila" de triangulos com a forma de um paralelogramo:
 
             // primeiro triangulo
-            if (i != 0) {
+            if (i != stacks - 1) {
                 add_point(p1);
                 add_point(p2);
-                add_point(p4);
+                add_point(p3);
             }
 
             // segundo triangulo
-            if (i != stacks - 1) {
-                add_point(p2);
+            if (i != 0) {
                 add_point(p3);
                 add_point(p4);
+                add_point(p1);
             }
 
         }
