@@ -10,12 +10,14 @@ void Box::generate_points() {
 	int divisions = grid + 1;
 	float step = length / static_cast<float>(grid);
 
+    float f_length = (float)length;
+
     // Bottom face (plane)
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = -length / 2 + i * step;
-            float y = -length / 2;
-            float z = -length / 2 + j * step;
+            float x = -f_length / 2 + i * step;
+            float y = -f_length / 2;
+            float z = -f_length / 2 + j * step;
 
             // Triangle 1
             add_point(Point(x, y, z));
@@ -37,45 +39,45 @@ void Box::generate_points() {
     // Front face
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = -length / 2 + i * step;
-            float y = -length / 2 + j * step;
+            float x = -f_length / 2 + i * step;
+            float y = -f_length / 2 + j * step;
 
             // Triangle 1
-            add_point(Point(x, y, length / 2));
-            add_point(Point(x + step, y, length / 2));
-            add_point(Point(x + step, y + step, length / 2));
+            add_point(Point(x, y, f_length / 2));
+            add_point(Point(x + step, y, f_length / 2));
+            add_point(Point(x + step, y + step, f_length / 2));
 
             // Triangle 2
-            add_point(Point(x, y, length / 2));
-            add_point(Point(x + step, y + step, length / 2));
-            add_point(Point(x, y + step, length / 2));
+            add_point(Point(x, y, f_length / 2));
+            add_point(Point(x + step, y + step, f_length / 2));
+            add_point(Point(x, y + step, f_length / 2));
         }
     }
 
     // Back face
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = -length / 2 + i * step;
-            float y = -length / 2 + j * step;
+            float x = -f_length / 2 + i * step;
+            float y = -f_length / 2 + j * step;
 
             // Triangle 1
-            add_point(Point(x, y, -length / 2));
-            add_point(Point(x + step, y, -length / 2));
-            add_point(Point(x + step, y + step, -length / 2));
+            add_point(Point(x, y, -f_length / 2));
+            add_point(Point(x + step, y, -f_length / 2));
+            add_point(Point(x + step, y + step, -f_length / 2));
 
             // Triangle 2
-            add_point(Point(x, y, -length / 2));
-            add_point(Point(x + step, y + step, -length / 2));
-            add_point(Point(x, y + step, -length / 2));
+            add_point(Point(x, y, -f_length / 2));
+            add_point(Point(x + step, y + step, -f_length / 2));
+            add_point(Point(x, y + step, -f_length / 2));
         }
     }
 
     // Left face
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = -length / 2;
-            float y = -length / 2 + i * step;
-            float z = -length / 2 + j * step;
+            float x = -f_length / 2;
+            float y = -f_length / 2 + i * step;
+            float z = -f_length / 2 + j * step;
 
             // Triangle 1
             add_point(Point(x, y, z));
@@ -92,9 +94,9 @@ void Box::generate_points() {
     // Right face
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = length / 2;
-            float y = -length / 2 + i * step;
-            float z = -length / 2 + j * step;
+            float x = f_length / 2;
+            float y = -f_length / 2 + i * step;
+            float z = -f_length / 2 + j * step;
 
             // Triangle 1
             add_point(Point(x, y, z));
@@ -111,9 +113,9 @@ void Box::generate_points() {
     // Top face
     for (int i = 0; i < divisions; i++) {
         for (int j = 0; j < divisions; j++) {
-            float x = -length / 2 + i * step;
-            float y = length / 2;
-            float z = -length / 2 + j * step;
+            float x = -f_length / 2 + i * step;
+            float y = f_length / 2;
+            float z = -f_length / 2 + j * step;
 
             // Triangle 1
             add_point(Point(x, y, z));
