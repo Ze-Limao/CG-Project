@@ -10,7 +10,7 @@ void Box::generate_points() {
 	int divisions = grid + 1;
 	float step = length / static_cast<float>(grid);
 
-    float f_length = (float)length;
+    float f_length = static_cast<float>(length);
 
     // Bottom face (plane)
     for (int i = 0; i < divisions; i++) {
