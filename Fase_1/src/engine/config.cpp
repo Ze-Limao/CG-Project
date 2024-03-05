@@ -68,3 +68,7 @@ float Config::get_z_look_at() const { return look_at[2]; }
 float Config::get_x_up() const { return up[0]; }
 float Config::get_y_up() const { return up[1]; }
 float Config::get_z_up() const { return up[2]; }
+
+float Config::get_fov() const { return projection[0]; }
+float Config::get_near() const { return projection[1]; }
+float Config::get_far() const { return projection[2]; }

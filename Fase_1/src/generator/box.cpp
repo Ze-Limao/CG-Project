@@ -7,125 +7,138 @@ Box::~Box() {}
 void Box::generate_points() {
 	points.clear();
 
-	int divisions = grid + 1;
-	float step = length / static_cast<float>(grid);
+    float dimension2 = static_cast<float>(length) / 2;
+    float div_side = static_cast<float>(length) / grid;
 
-    float f_length = static_cast<float>(length);
-
-    // Bottom face (plane)
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = -f_length / 2 + i * step;
-            float y = -f_length / 2;
-            float z = -f_length / 2 + j * step;
-
-            // Triangle 1
-            add_point(Point(x, y, z));
-            add_point(Point(x + step, y, z));
-            add_point(Point(x + step, y, z + step));
+    // Bottom face (reversed plane)
+    for (int line = 0; line < grid; line++) {
+        float z1 = -dimension2 + line * div_side;
+        float z2 = z1 + div_side;
+        for (int column = 0; column < grid; column++) {
+            float x1 = -dimension2 + column * div_side;
+            float x2 = x1 + div_side;
 
             // 1 -- 3
-            // |  / |
-            // | /  |
+            // | \  |
+            // |  \ |
             // 2 -- 4
 
-            // Triangle 2
-            add_point(Point(x, y, z));
-            add_point(Point(x + step, y, z + step));
-            add_point(Point(x, y, z + step));
+            // First triangle
+
+            add_point(Point(x2, -dimension2, z2)); // 2
+            add_point(Point(x1, -dimension2, z1)); // 1
+            add_point(Point(x1, -dimension2, z2)); // 4
+
+            // Second triangle
+            add_point(Point(x2, -dimension2, z1)); // 1
+            add_point(Point(x1, -dimension2, z1)); // 3
+            add_point(Point(x2, -dimension2, z2)); // 4
+
+        }
+    }
+
+    // Top face (normal plane)
+    for (int line = 0; line < grid; line++) {
+        float z1 = -dimension2 + line * div_side;
+        float z2 = z1 + div_side;
+        for (int column = 0; column < grid; column++) {
+            float x1 = -dimension2 + column * div_side;
+            float x2 = x1 + div_side;
+
+            // 1 -- 3
+            // | \  |
+            // |  \ |
+            // 2 -- 4
+
+            // First triangle
+            add_point(Point(x1, dimension2, z1)); // 1
+            add_point(Point(x1, dimension2, z2)); // 2
+            add_point(Point(x2, dimension2, z2)); // 4
+
+            // Second triangle
+            add_point(Point(x2, dimension2, z2)); // 4
+            add_point(Point(x2, dimension2, z1)); // 3
+            add_point(Point(x1, dimension2, z1)); // 1
         }
     }
 
     // Front face
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = -f_length / 2 + i * step;
-            float y = -f_length / 2 + j * step;
+    for (int line = 0; line < grid; line++) {
+        float x1 = -dimension2  + line * div_side;
+        float x2 = x1 + div_side;
+        for (int collumn = 0; collumn < grid; collumn++) {
+            float y1 = -dimension2  + collumn * div_side;
+            float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x, y, f_length / 2));
-            add_point(Point(x + step, y, f_length / 2));
-            add_point(Point(x + step, y + step, f_length / 2));
+            add_point(Point(x1, y1, dimension2));
+            add_point(Point(x2, y1, dimension2));
+            add_point(Point(x2, y2, dimension2));
 
             // Triangle 2
-            add_point(Point(x, y, f_length / 2));
-            add_point(Point(x + step, y + step, f_length / 2));
-            add_point(Point(x, y + step, f_length / 2));
+            add_point(Point(x2, y2, dimension2));
+            add_point(Point(x1, y2, dimension2));
+            add_point(Point(x1, y1, dimension2));
         }
     }
 
     // Back face
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = -f_length / 2 + i * step;
-            float y = -f_length / 2 + j * step;
+    for (int line = 0; line < grid; line++) {
+        float x1 = -dimension2 + line * div_side;
+        float x2 = x1 + div_side;
+        for (int collumn = 0; collumn < grid; collumn++) {
+            float y1 = -dimension2 + collumn * div_side;
+            float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x, y, -f_length / 2));
-            add_point(Point(x + step, y, -f_length / 2));
-            add_point(Point(x + step, y + step, -f_length / 2));
+            add_point(Point(x1, y1, -dimension2));
+            add_point(Point(x2, y1, -dimension2));
+            add_point(Point(x2, y2, -dimension2));
 
             // Triangle 2
-            add_point(Point(x, y, -f_length / 2));
-            add_point(Point(x + step, y + step, -f_length / 2));
-            add_point(Point(x, y + step, -f_length / 2));
+            add_point(Point(x2, y2, -dimension2));
+            add_point(Point(x1, y2, -dimension2));
+            add_point(Point(x1, y1, -dimension2));
         }
     }
 
     // Left face
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = -f_length / 2;
-            float y = -f_length / 2 + i * step;
-            float z = -f_length / 2 + j * step;
+    for (int line = 0; line < grid; line++) {
+        float z1 = -dimension2 + line * div_side;
+        float z2 = z1 + div_side;
+        for (int collumn = 0; collumn < grid; collumn++) {
+            float y1 = -dimension2 + collumn * div_side;
+            float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x, y, z));
-            add_point(Point(x, y + step, z));
-            add_point(Point(x, y + step, z + step));
+            add_point(Point(-dimension2, z1, y1));
+            add_point(Point(-dimension2, z2, y1));
+            add_point(Point(-dimension2, z2, y2));
 
             // Triangle 2
-            add_point(Point(x, y, z));
-            add_point(Point(x, y + step, z + step));
-            add_point(Point(x, y, z + step));
+            add_point(Point(-dimension2, z2, y2));
+            add_point(Point(-dimension2, z1, y2));
+            add_point(Point(-dimension2, z1, y1));
         }
     }
 
     // Right face
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = f_length / 2;
-            float y = -f_length / 2 + i * step;
-            float z = -f_length / 2 + j * step;
+    for (int line = 0; line < grid; line++) {
+        float z1 = -dimension2  + line * div_side;
+        float z2 = z1 + div_side;
+        for (int collumn = 0; collumn < grid; collumn++) {
+            float y1 = -dimension2  + collumn * div_side;
+            float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x, y, z));
-            add_point(Point(x, y + step, z));
-            add_point(Point(x, y + step, z + step));
+            add_point(Point(dimension2, z1, y1));
+            add_point(Point(dimension2, z2, y2));
+            add_point(Point(dimension2, z2, y1));
 
             // Triangle 2
-            add_point(Point(x, y, z));
-            add_point(Point(x, y + step, z + step));
-            add_point(Point(x, y, z + step));
-        }
-    }
-
-    // Top face
-    for (int i = 0; i < divisions; i++) {
-        for (int j = 0; j < divisions; j++) {
-            float x = -f_length / 2 + i * step;
-            float y = f_length / 2;
-            float z = -f_length / 2 + j * step;
-
-            // Triangle 1
-            add_point(Point(x, y, z));
-            add_point(Point(x + step, y, z));
-            add_point(Point(x + step, y, z + step));
-
-            // Triangle 2
-            add_point(Point(x, y, z));
-            add_point(Point(x + step, y, z + step));
-            add_point(Point(x, y, z + step));
+            add_point(Point(dimension2, z2, y2));
+            add_point(Point(dimension2, z1, y1));
+            add_point(Point(dimension2, z1, y2));
         }
     }
 }

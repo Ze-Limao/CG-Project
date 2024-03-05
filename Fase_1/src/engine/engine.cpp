@@ -31,10 +31,45 @@ float lookAtz = 0.0f;
 float upx = 0.0f;
 float upy = 0.0f;
 float upz = 0.0f;
+float fov = 0.0f;
+float near = 0.0f;
+float far = 0.0f;
+
+float view_w = 800;
+float view_h = 800;
 
 int mode = GL_LINE;
 
 std::vector<Figure*> figures;
+
+
+void startOrthoView() {
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, view_w, 0, view_h, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glDisable(GL_DEPTH_TEST);
+
+	glDisable(GL_LIGHTING);
+}
+
+void endOrthoView() {
+
+	glEnable(GL_LIGHTING);
+
+	glEnable(GL_DEPTH_TEST);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+}
 
 void changeSize(int w, int h) {
 
@@ -69,8 +104,22 @@ void drawFiguras() {
 	}
 }
 
-void renderScene(void) {
+void drawText(char* string) {
+	startOrthoView();
+	int l = 1;
+	glColor3f(1, 1, 1);
+	glRasterPos2i(0, view_h - l * 20);
+	void* font = GLUT_BITMAP_HELVETICA_18;
+	for (char* c = string; *c != '\0'; c++) {
+		if (*c == '\n') {
+			glRasterPos2i(0, view_h - (++l * 20));
+		}
+		glutBitmapCharacter(font, *c);
+	}
+	endOrthoView();
+}
 
+void renderScene(void) {
 	// clear buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -107,12 +156,15 @@ void renderScene(void) {
 	glBegin(GL_TRIANGLES);
 	drawFiguras();
 	glEnd();
+	
+	//Texto 
+	//drawText("HELLO"); // debug, depois criar funcao para criar a string
 
 	// End of frame
 	glutSwapBuffers();
 }
 
-// altera a posição da camera, para debug.
+// altera a posiï¿½ï¿½o da camera, para debug.
 void specKeyProc(int key_code, int x, int y) {
 	x = y; y = x;
 	switch (key_code) {
@@ -132,7 +184,7 @@ void specKeyProc(int key_code, int x, int y) {
 	glutPostRedisplay();
 }
 
-// altera a posição da camera, para debug, e altera os modes para GL_FILL, GL_LINES, GL_POINT
+// Alters the camera position for debug and changes between modes (GL_FILL, GL_LINES, GL_POINT)
 void keyProc(unsigned char key, int x, int y) {
 	x = y; y = x;
 	switch (key)
@@ -206,6 +258,10 @@ int main(int argc, char* argv[]) {
 	upy = c.get_y_up();
 	upz = c.get_z_up();
 
+	fov = c.get_fov();
+	near = c.get_near();
+	far = c.get_far();
+
 	alpha = acos(camz / sqrt(camx * camx + camz * camz));
 	beta_ = asin(camy / radius);
 
@@ -216,10 +272,11 @@ int main(int argc, char* argv[]) {
 	glutCreateWindow("Fase 1");
 
 	// Required callback registry 
+	gluPerspective(fov, 1.0f, near, far);
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 
-	// put here the registration of the keyboard callbacks (por enquanto só mexem na camara como forma de debug)
+	// put here the registration of the keyboard callbacks (por enquanto sï¿½ mexem na camara como forma de debug)
 	glutKeyboardFunc(keyProc);
 	glutSpecialFunc(specKeyProc);
 

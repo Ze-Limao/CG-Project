@@ -21,6 +21,9 @@ public:
     float get_x_up() const;
     float get_y_up() const;
     float get_z_up() const;
+    float get_fov() const;
+    float get_near() const;
+    float get_far() const;
 
 private:
     float pos_cam[3];
