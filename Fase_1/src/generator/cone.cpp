@@ -6,52 +6,62 @@ Cone::~Cone() {}
 void Cone::generate_points() {
 	points.clear();
 
-    // Base of the cone
-    for (int i = 0; i <= slices; i++) {
-        float theta = (2.0f * PI * i) / slices;
-        float x = radius * cos(theta);
-        float z = radius * sin(theta);
+    // Base
+    float alpha = (2.0f * PI) / slices;
+    float start = 0.0f;
+    std::vector<Point> base(slices);
 
-        add_point(Point(x, 0.0f, z));
+    for (int i = 0; i < slices; i++) {
+        Point np = Point(radius * sinf(start), 0.0f, radius * cosf(start));
+        base.insert(base.begin() + i, np);
+
+        add_point(np);
+        add_point(Point(0.0f, 0.0f, 0.0f));
+        start += alpha;
+        add_point(Point(radius * sinf(start), 0.0f, radius * cosf(start)));
     }
 
-    // Stack height
-    float stack_height = static_cast<float>(height) / stacks;
+    float h_diff = static_cast<float>(height) / stacks;
 
-	// Proportion of the radius for each stack
-	float proportion = radius / static_cast<float>(stacks);
-	float radius1, radius2;
-    // Each stack is progressively smaller than the previous one
-    for (int i = 0; i < stacks; i++) {
-		radius1 = radius - (proportion * i); // Radius of the current stack
-		radius2 = radius - (proportion * (i + 1)); // Radius of the next stack
+    // Faces
+    for (int j = 0; j < slices; j++) {
+        Point p1 = base.at(j);
+        int nj = j + 1;
 
-		float z1 = radius1 * sin(0); 
-		float x1 = radius1 * cos(0); 
+        if (nj == slices) 
+            nj = 0;
+        Point p2 = base.at(nj);
 
-		float z2 = radius2 * sin(0); 
-		float x2 = radius2 * cos(0); 
+        float b1x_diff = p1.x / stacks; // Diferença entre a coordenada X e 0 do p1
+        float b1z_diff = p1.z / stacks; // Diferença entre a coordenada Z e 0 do p1
 
+        float b2x_diff = p2.x / stacks; // Diferença entre a coordenada X e 0 do p2
+        float b2z_diff = p2.z / stacks; // Diferença entre a coordenada Z e 0 do p2
 
-        for (int j = 0; j <= slices; j++) {
-			float theta = (2.0f * PI * j) / slices;
-			float x3 = radius1 * cos(theta);
-			float z3 = radius1 * sin(theta);
+        Point l_p1 = p1;
+        Point l_p2 = p2;
 
-			float x4 = radius2 * cos(theta);
-			float z4 = radius2 * sin(theta);
+        // Para cada stack da face
+        for (int i = 0; i < stacks - 1; i++) {
+            // Triangulo da esquerda
+            add_point(l_p1);
+            add_point(l_p2);
+            l_p1 = Point(l_p1.x - b1x_diff, l_p1.y + h_diff, l_p1.z - b1z_diff);
+            add_point(l_p1);
 
-			// Triangle 1
-			add_point(Point(x1, stack_height * (i + 1), z1));
-			add_point(Point(x3, stack_height * i, z3));
-			add_point(Point(x4, stack_height * (i + 1), z4));
+            // Triangulo da direita
+            add_point(l_p2);
+            l_p2 = Point(l_p2.x - b2x_diff, l_p2.y + h_diff, l_p2.z - b2z_diff);
+            add_point(l_p2);
+            add_point(l_p1);
+        }
 
-			// Triangle 2
-			add_point(Point(x1, stack_height * (i + 1), z1));
-			add_point(Point(x2, stack_height * i, z2));
-			add_point(Point(x3, stack_height * i, z3));
-		}
-	}	
+        // Construir triangulo do topo.
+        add_point(l_p1);
+        add_point(l_p2);
+        add_point(Point(0.0f, static_cast<float>(height), 0.0f));
+    }
+
 }
 
 Figure::FigureType Cone::get_type() {
