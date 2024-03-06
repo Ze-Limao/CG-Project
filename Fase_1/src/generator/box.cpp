@@ -24,15 +24,14 @@ void Box::generate_points() {
             // 2 -- 4
 
             // First triangle
-
-            add_point(Point(x2, -dimension2, z2)); // 2
             add_point(Point(x1, -dimension2, z1)); // 1
-            add_point(Point(x1, -dimension2, z2)); // 4
+            add_point(Point(x2, -dimension2, z1)); // 3
+            add_point(Point(x2, -dimension2, z2)); // 2
 
             // Second triangle
-            add_point(Point(x2, -dimension2, z1)); // 1
-            add_point(Point(x1, -dimension2, z1)); // 3
-            add_point(Point(x2, -dimension2, z2)); // 4
+            add_point(Point(x2, -dimension2, z2)); // 3
+            add_point(Point(x1, -dimension2, z2)); // 4
+            add_point(Point(x1, -dimension2, z1)); // 2
 
         }
     }
@@ -73,12 +72,12 @@ void Box::generate_points() {
             // Triangle 1
             add_point(Point(x1, y1, dimension2));
             add_point(Point(x2, y1, dimension2));
-            add_point(Point(x2, y2, dimension2));
+            add_point(Point(x1, y2, dimension2));
 
             // Triangle 2
             add_point(Point(x2, y2, dimension2));
             add_point(Point(x1, y2, dimension2));
-            add_point(Point(x1, y1, dimension2));
+            add_point(Point(x2, y1, dimension2));
         }
     }
 
@@ -92,13 +91,13 @@ void Box::generate_points() {
 
             // Triangle 1
             add_point(Point(x1, y1, -dimension2));
+            add_point(Point(x1, y2, -dimension2));
             add_point(Point(x2, y1, -dimension2));
-            add_point(Point(x2, y2, -dimension2));
 
             // Triangle 2
-            add_point(Point(x2, y2, -dimension2));
+            add_point(Point(x2, y1, -dimension2));
             add_point(Point(x1, y2, -dimension2));
-            add_point(Point(x1, y1, -dimension2));
+            add_point(Point(x2, y2, -dimension2));
         }
     }
 
@@ -112,13 +111,13 @@ void Box::generate_points() {
 
             // Triangle 1
             add_point(Point(-dimension2, z1, y1));
-            add_point(Point(-dimension2, z2, y1));
             add_point(Point(-dimension2, z2, y2));
+            add_point(Point(-dimension2, z2, y1));
 
             // Triangle 2
             add_point(Point(-dimension2, z2, y2));
-            add_point(Point(-dimension2, z1, y2));
             add_point(Point(-dimension2, z1, y1));
+            add_point(Point(-dimension2, z1, y2));
         }
     }
 
@@ -132,13 +131,14 @@ void Box::generate_points() {
 
             // Triangle 1
             add_point(Point(dimension2, z1, y1));
-            add_point(Point(dimension2, z2, y2));
             add_point(Point(dimension2, z2, y1));
+            add_point(Point(dimension2, z2, y2));
+
 
             // Triangle 2
             add_point(Point(dimension2, z2, y2));
-            add_point(Point(dimension2, z1, y1));
             add_point(Point(dimension2, z1, y2));
+            add_point(Point(dimension2, z1, y1));
         }
     }
 }
