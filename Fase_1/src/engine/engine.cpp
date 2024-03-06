@@ -90,7 +90,7 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 
 	// Set perspective
-	gluPerspective(45.0f, ratio, 1.0f, 1000.0f);
+	gluPerspective(fov, ratio, near, far);
 
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
@@ -272,7 +272,6 @@ int main(int argc, char* argv[]) {
 	glutCreateWindow("Fase 1");
 
 	// Required callback registry 
-	gluPerspective(fov, 1.0f, near, far);
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 
