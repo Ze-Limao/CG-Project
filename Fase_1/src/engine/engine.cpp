@@ -19,6 +19,7 @@
 #define CYAN 0.0f, 1.0f, 1.0f
 #define WHITE 1.0f, 1.0f, 1.0f
 
+float alphaRoll = 1.0f;
 float alpha = PI / 4;
 float beta_ = PI / 4;
 float radius = 5.0f;
@@ -177,10 +178,22 @@ void specKeyProc(int key_code, int x, int y) {
 		radius += 0.1f;
 		break;
 	}
-
+	case GLUT_KEY_LEFT: {
+		alphaRoll -= 0.05f;
+		upx = sin(alphaRoll);
+		upz = cos(alphaRoll);
+		break;
+	}
+	case GLUT_KEY_RIGHT: {
+		alphaRoll += 0.05;
+		upx = sin(alphaRoll);
+		upz = cos(alphaRoll);
+		break;
+	}
 	default:
 		break;
 	}
+
 	glutPostRedisplay();
 }
 
