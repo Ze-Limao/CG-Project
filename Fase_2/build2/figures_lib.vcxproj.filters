@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\cone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\sphere.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\box.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\plane.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\cone.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{EA296FDA-D520-3508-AFB6-45D268893E17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0E1FEE9F-204F-373E-8F89-65F4ECF63785}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

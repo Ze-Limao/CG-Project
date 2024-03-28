@@ -1,0 +1,20 @@
+﻿  Building Custom Rule C:/Users/jeswi/OneDrive/Ambiente de Trabalho/CG-Project/Fase_2/src/CMakeLists.txt
+  sphere.cpp
+  ring.cpp
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(10,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(11,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(12,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(14,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(15,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(16,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(18,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(19,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(20,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(22,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(23,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\src\generator\ring.cpp(24,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  box.cpp
+  plane.cpp
+  cone.cpp
+  Generating Code...
+  figures_lib.vcxproj -> C:\Users\jeswi\OneDrive\Ambiente de Trabalho\CG-Project\Fase_2\build2\Debug\figures_lib.lib

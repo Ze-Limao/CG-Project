@@ -2,6 +2,7 @@
 #include "plane.hpp"
 #include "box.hpp"
 #include "cone.hpp"
+#include "ring.hpp"
 
 #include "../utils/figure.hpp"
 
@@ -46,6 +47,13 @@ int main(int argc, char *argv[]){
 
             args.insert(args.end(), { radius, height, slices, stacks });
             figure = new Cone(radius, height, slices, stacks);
+        }
+        else if (strcmp(argv[1], "ring") == 0) {
+            int radius = atoi(argv[2]), radius2 = atoi(argv[3]), slices = atoi(argv[4]);
+            file_path = argv[5];
+
+            args.insert(args.end(), { radius, radius2, slices});
+            figure = new Ring(radius, radius2, slices);
         }
         else {
             printf("Invalid\n");

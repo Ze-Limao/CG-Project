@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(fase1)
+project(fase2)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_executable(engine ./engine/engine.cpp)
@@ -24,6 +24,8 @@ add_library(
     figures_lib
     ./generator/sphere.cpp
     ./generator/sphere.hpp
+	./generator/ring.cpp
+    ./generator/ring.hpp
 	./generator/box.cpp
 	./generator/box.hpp
 	./generator/plane.cpp

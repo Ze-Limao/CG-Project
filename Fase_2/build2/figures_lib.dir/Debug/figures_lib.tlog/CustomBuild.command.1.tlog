@@ -1,0 +1,10 @@
+^C:\USERS\JESWI\ONEDRIVE\AMBIENTE DE TRABALHO\CG-PROJECT\FASE_2\SRC\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/jeswi/OneDrive/Ambiente de Trabalho/CG-Project/Fase_2/src" "-BC:/Users/jeswi/OneDrive/Ambiente de Trabalho/CG-Project/Fase_2/build2" --check-stamp-file "C:/Users/jeswi/OneDrive/Ambiente de Trabalho/CG-Project/Fase_2/build2/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

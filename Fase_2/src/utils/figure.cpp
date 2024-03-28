@@ -11,6 +11,7 @@
 #include "../generator/cone.hpp"
 #include "../generator/plane.hpp"
 #include "../generator/sphere.hpp"
+#include "../generator/ring.hpp"
 
 Figure::Figure() {}
 Figure::Figure(const std::vector<Point>& points) : points(points) {}
@@ -84,6 +85,8 @@ Figure* Figure::from_file(const std::string& path) {
         instance = new Plane(args.at(0), args.at(1), 0, points);
     } else if (type == FigureType::SPHERE && args.size() >= 3) {
         instance = new Sphere(args.at(0), args.at(1), args.at(2), points);
+    } else if (type == FigureType::RING && args.size() >= 3) {
+        instance = new Ring(args.at(0), args.at(1), args.at(2), points);
     } else {
         std::cerr << "Incorrect number of arguments for type T." << std::endl;
     }
