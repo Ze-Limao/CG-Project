@@ -20,6 +20,7 @@ test_info = {
         2: ['box 2 3 box_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d'],
         3: ['sphere 1 8 8 sphere_1_8_8.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d'],
         4: ['box 2 3 box_2_3.3d'],
+        5: ['sphere 1 20 20 sphere_1_20_20.3d', 'ring 1 20 20 ring_1_1_20.3d']
     }
 }
 
