@@ -38,6 +38,10 @@ add_library(
 	config_lib
 	./engine/config.cpp
 	./engine/config.hpp	
+	./engine/group.hpp
+	./engine/group.cpp
+	./engine/transform.hpp
+	./engine/transform.cpp
 )
 
 target_link_libraries(generator utils_lib figures_lib)

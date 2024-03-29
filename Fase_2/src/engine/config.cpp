@@ -1,5 +1,11 @@
 #include "config.hpp"
-#include "../tinyXML2/tinyxml2.h"
+#include "group.hpp"
+#include "transform.hpp"
+
+
+Config::~Config() {
+    delete group;
+}
 
 Config::Config(const char* file_path) {
 
@@ -39,23 +45,79 @@ Config::Config(const char* file_path) {
         projection[1] = projection_camera->FloatAttribute("near");
         projection[2] = projection_camera->FloatAttribute("far");
 
-        tinyxml2::XMLElement* group = root->FirstChildElement("group");
-        tinyxml2::XMLElement* models_elem = group->FirstChildElement("models");
-        for (tinyxml2::XMLElement* model = models_elem->FirstChildElement("model"); model; model = model->NextSiblingElement("model")) {
-            models.push_back(model->Attribute("file"));
-        }
+        group = parse_groups(root);
+    }
+    else {
+        group = NULL;
     }
 }
 
-Config::~Config() {
-    models.clear();
+Group* Config::parse_groups(tinyxml2::XMLElement* xml_group) {
+    if (xml_group) {
+        Group* group = new Group();
+
+        // Transforms
+        tinyxml2::XMLElement* xml_transform = xml_group->FirstChildElement("transform");
+        if (xml_transform) {
+
+            bool translate = false;
+            bool scale = false;
+            bool rotate = false;
+
+            for (tinyxml2::XMLElement* t = xml_transform->FirstChildElement(); t; t = t->NextSiblingElement()) {
+
+                const char* name = t->Value();
+                Transform::TransformType type;
+                float angle = 0.0f;
+
+                if (strcmp(name, "translate") == 0 && !translate) {
+                    type = Transform::TransformType::TRANSLATE;
+                    translate = true;
+                } else if (strcmp(name, "scale") == 0 && !scale) {
+                    type = Transform::TransformType::SCALE; 
+                    scale = true;
+                } else if (strcmp(name, "rotate") == 0 && !rotate) {
+                    type = Transform::TransformType::ROTATE; 
+                    angle = static_cast<float>(atof(t->Attribute("angle")));
+                    rotate = true;
+                } else { 
+                    continue; 
+                }
+
+                float x = static_cast<float>(atof(t->Attribute("x")));
+                float y = static_cast<float>(atof(t->Attribute("y")));
+                float z = static_cast<float>(atof(t->Attribute("z")));
+
+                group->transforms.push_back(new Transform(x, y, z, angle, type));
+            }
+        }
+
+        // Models
+        tinyxml2::XMLElement* xml_models = xml_group->FirstChildElement("models");
+        if (xml_models) {
+            for (tinyxml2::XMLElement* m = xml_models->FirstChildElement("model"); m; m = m->NextSiblingElement()) {
+                group->models.push_back((m->Attribute("file")));
+            }
+        }
+
+        // Groups
+        for (tinyxml2::XMLElement* g = xml_group->FirstChildElement("group"); g; g = g->NextSiblingElement("group")) {
+            Group* child = parse_groups(g);
+            group->groups.push_back(child);
+        }
+
+        return group;
+    }
+    return NULL;
 }
+
 
 void Config::set_cam_position(float x, float y, float z) {
     pos_cam[0] = x;
     pos_cam[1] = y;
     pos_cam[2] = z;
 }
+
 
 float Config::get_x_pos_cam() const { return pos_cam[0]; }
 float Config::get_y_pos_cam() const { return pos_cam[1]; }

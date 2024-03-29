@@ -3,13 +3,16 @@
 
 #include <vector>
 #include <string>
+#include "../tinyXML2/tinyxml2.h"
+#include "group.hpp"
+
 
 class Config {
 public:
     Config::Config(const char* file_path);
     ~Config();
 
-    std::vector<std::string> models;
+    Group* group;
 
     void set_cam_position(float x, float y, float z);
     float get_x_pos_cam() const;
@@ -30,6 +33,7 @@ private:
     float look_at[3];
     float up[3];
     float projection[3];
+    Group* parse_groups(tinyxml2::XMLElement* xml_group);
 };
 
 #endif // CONFIG_HPP

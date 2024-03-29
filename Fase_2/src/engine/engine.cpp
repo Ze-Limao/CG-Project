@@ -41,7 +41,7 @@ float view_h = 800;
 
 int mode = GL_LINE;
 
-std::vector<Figure*> figures;
+Config* c;
 
 
 void startOrthoView() {
@@ -97,13 +97,6 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void drawFiguras() {
-	for (Figure* f : figures) {
-		for (Point p : f->points) {
-			glVertex3d(p.x, p.y, p.z);
-		}
-	}
-}
 
 void drawText(char* string) {
 	startOrthoView();
@@ -118,6 +111,53 @@ void drawText(char* string) {
 		glutBitmapCharacter(font, *c);
 	}
 	endOrthoView();
+}
+
+void drawFiguras(std::vector<Figure *> figures) {
+	for (Figure* f : figures) {
+		for (Point p : f->points) {
+			glVertex3d(p.x, p.y, p.z);
+		}
+	}
+}
+
+void drawGroups(Group* group) {
+	if (group) {
+		glPushMatrix();
+		glColor3f(WHITE);
+
+		for (Transform* t : group->transforms) {
+			switch (t->type)
+			{
+			case Transform::TransformType::TRANSLATE:
+				glTranslatef(t->x, t->y, t->z);
+				break;
+			case Transform::TransformType::SCALE:
+				glScalef(t->x, t->y, t->z);
+				break;
+			case Transform::TransformType::ROTATE:
+				glRotatef(t->angle, t->x, t->y, t->z);
+				break;
+			default:
+				break;
+			}
+		}
+
+		std::vector<Figure*> figures;
+		for (const auto& model : group->models) {
+			figures.push_back(Figure::from_file(model));
+		}
+
+		glBegin(GL_TRIANGLES);
+		drawFiguras(figures);
+		glEnd();
+
+		for (Group* g : group->groups) {
+			drawGroups(g);
+		}
+
+		glPopMatrix();
+	}
 }
 
 void renderScene(void) {
@@ -147,16 +187,15 @@ void renderScene(void) {
 	glVertex3f(0.0f, 0.0f, 100.0f);
 	glEnd();
 
-	glColor3f(1.0f, 1.0f, 1.0f);
 	// put the geometric transformations here
 	// ...
 	//
 
-	// figuras
 	glPolygonMode(GL_FRONT_AND_BACK, mode);
-	glBegin(GL_TRIANGLES);
-	drawFiguras();
-	glEnd();
+
+	// groups
+	drawGroups(c->group);
+	
 	
 	//Texto 
 	//drawText("HELLO"); // debug, depois criar funcao para criar a string
@@ -248,32 +287,25 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	Config c = Config(argv[1]);
+	c = new Config(argv[1]);
 
-	for (unsigned int i = 0; i < c.models.size(); i++) {
-		std::cout << c.models.at(i) << std::endl;
-		Figure* f = Figure::from_file(c.models.at(i));
-		std::cout << f->get_type() << std::endl;
-		figures.push_back(f);
-	}
-
-	camx = c.get_x_pos_cam();
-	camy = c.get_y_pos_cam();
-	camz = c.get_z_pos_cam();
+	camx = c->get_x_pos_cam();
+	camy = c->get_y_pos_cam();
+	camz = c->get_z_pos_cam();
 
 	radius = sqrt(camx * camx + camy * camy + camz * camz);
 
-	lookAtx = c.get_x_look_at();
-	lookAty = c.get_y_look_at();
-	lookAtz = c.get_z_look_at();
+	lookAtx = c->get_x_look_at();
+	lookAty = c->get_y_look_at();
+	lookAtz = c->get_z_look_at();
 
-	upx = c.get_x_up();
-	upy = c.get_y_up();
-	upz = c.get_z_up();
+	upx = c->get_x_up();
+	upy = c->get_y_up();
+	upz = c->get_z_up();
 
-	fov = c.get_fov();
-	near = c.get_near();
-	far = c.get_far();
+	fov = c->get_fov();
+	near = c->get_near();
+	far = c->get_far();
 
 	alpha = acos(camz / sqrt(camx * camx + camz * camz));
 	beta_ = asin(camy / radius);
@@ -299,10 +331,7 @@ int main(int argc, char* argv[]) {
 	// enter GLUT's main cycle
 	glutMainLoop();
 
-	for (auto& ptr : figures) {
-		delete ptr;
-	}
-	figures.clear();
+	delete c;
 
 	return 1;
 }

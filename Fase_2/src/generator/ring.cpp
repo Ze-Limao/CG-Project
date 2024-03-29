@@ -6,22 +6,27 @@ Ring::~Ring() {}
 void Ring::generate_points() {
     points.clear();
     float a = 0, delta = (2 * PI) / slices;
+
+    float f_iRadius = static_cast<float>(iRadius);
+    float f_eRadius = static_cast<float>(eRadius);
+
+
     for (int i = 0; i < slices; i++, a += delta) {
-            add_point(Point::new_sph_point(a, 0.0f, iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, iRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_iRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
 
-            add_point(Point::new_sph_point(a + delta, 0.0f, iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, eRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_eRadius));
 
-            add_point(Point::new_sph_point(a + delta, 0.0f, iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, eRadius));
-            add_point(Point::new_sph_point(a, 0.0f, iRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_iRadius));
 
-            add_point(Point::new_sph_point(a, 0.0f, eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, iRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, eRadius));
+            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
+            add_point(Point::new_sph_point(a + delta, 0.0f, f_eRadius));
     }
 }
 

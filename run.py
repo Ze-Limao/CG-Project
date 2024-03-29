@@ -16,7 +16,10 @@ test_info = {
         5: ['plane 2 3 plane_2_3.3d', 'sphere 1 10 10 sphere_1_10_10.3d']
     },
     2: {
-        # Para a fase 2
+        1: ['box 2 3 box_2_3.3d'],
+        2: ['box 2 3 box_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d'],
+        3: ['sphere 1 8 8 sphere_1_8_8.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d'],
+        4: ['box 2 3 box_2_3.3d'],
     }
 }
 
