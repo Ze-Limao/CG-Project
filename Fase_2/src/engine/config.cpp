@@ -48,7 +48,7 @@ Config::Config(const char* file_path) {
         group = parse_groups(root);
     }
     else {
-        group = NULL;
+        group = new Group();
     }
 }
 
