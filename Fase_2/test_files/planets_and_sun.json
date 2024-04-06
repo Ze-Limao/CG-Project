@@ -13,7 +13,7 @@
         "perihelion": 0,
         "aphelion": 0,
         "orbitalPeriod": null,
-        "orbitalVelocity": null,
+        "orbitalVelocity": 0,
         "orbitalInclination": 0,
         "orbitalEccentricity": 0,
         "obliquityToOrbit": 7.25,

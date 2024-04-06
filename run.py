@@ -21,7 +21,7 @@ test_info = {
         3: ['sphere 1 8 8 sphere_1_8_8.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d'],
         4: ['box 2 3 box_2_3.3d'],
         5: ['sphere 1 20 20 sphere_1_20_20.3d', 'ring 10 15 20 ring_10_15_20.3d'],
-        6: ['sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d']
+        6: ['sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
     }
 }
 

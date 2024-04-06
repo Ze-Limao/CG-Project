@@ -4,21 +4,21 @@ from enum import IntEnum
 import random
 
 SPHERE_MODEL = 'sphere_1_12_12.3d'
+LOWER_RES_SPHERE_MODEL = 'sphere_1_5_5.3d'
 RING_MODEL = 'ring_3_4_20.3d'
 
 
-class Transform:
-    class Type(IntEnum):
-        TRANSLATE = 0
-        ROTATE = 1
-        SCALE = 2
-    
-    def __init__(self, type: Type, x, y, z, angle=0):
-        self.type = type
-        self.x = x
-        self.y = y
-        self.z = z
-        self.angle = angle
+def get_color_for_temperature(temperature):
+    temperature_range = [-225, 5600]
+    color_range = [(0, 0, 255), (255, 0, 0)]
+
+    normalized_temperature = (temperature - temperature_range[0]) / (temperature_range[1] - temperature_range[0])
+
+    r = int((1 - normalized_temperature) * color_range[0][0] + normalized_temperature * color_range[1][0])
+    g = int((1 - normalized_temperature) * color_range[0][1] + normalized_temperature * color_range[1][1])
+    b = int((1 - normalized_temperature) * color_range[0][2] + normalized_temperature * color_range[1][2])
+
+    return r, g, b
 
 
 def create_window(doc, world):
@@ -51,21 +51,11 @@ def create_camera(doc, world):
     
     projection = doc.createElement("projection")
     projection.setAttribute("fov", "90")
-    projection.setAttribute("near", "200")
-    projection.setAttribute("far", "7200")
+    projection.setAttribute("near", "100")
+    projection.setAttribute("far", "7000")
     camera.appendChild(projection)
     
     world.appendChild(camera)
-
-
-def create_scale(doc, obj):
-    scale = doc.createElement('scale')
-    r = str(round((obj['diameter'] / 2.0) / 1000.0)) # tecnicamente devia ser a dividir por 1000000 para ficar à
-                                                     # escala porque a distância entre os planetas e o sol está em 10^6
-    scale.setAttribute('x', r)
-    scale.setAttribute('y', r)
-    scale.setAttribute('z', r)
-    return scale
 
 
 def create_scale_xyz(doc, x, y, z):
@@ -76,13 +66,37 @@ def create_scale_xyz(doc, x, y, z):
     return scale
 
 
-def create_translate(doc, obj):
+def create_translate_xyz(doc, x, y, z):
     translate = doc.createElement('translate')
-    distance_from_sun = str(round(obj['distanceFromSun']))
-    translate.setAttribute('x', distance_from_sun)
-    translate.setAttribute('y', '0')
-    translate.setAttribute('z', '0')
+    translate.setAttribute('x', x)
+    translate.setAttribute('y', y)
+    translate.setAttribute('z', z)
     return translate
+
+
+def create_scale(doc, obj):
+    r = str(round((obj['diameter'] / 2.0) / 1000.0)) # tecnicamente devia ser a dividir por 1000000 para ficar à
+                                                     # escala porque a distância entre os planetas e o sol está em 10^6
+    return create_scale_xyz(doc, r, r, r)
+
+
+def create_scale_satellite(doc, obj):
+    r = str(round(obj['radius'] / 1000.0))
+    return create_scale_xyz(doc, r, r, r)
+
+
+def create_translate(doc, obj):
+    distance_from_sun = str(round(obj['distanceFromSun']))
+    return create_translate_xyz(doc, distance_from_sun, '0', '0')
+
+
+def create_translate_satellite(doc, obj, satellite):
+    planet_radius = round((obj['diameter'] / 2.0) / 1000.0)
+    lower_bound = planet_radius + round(satellite['radius'])
+    upper_bound = int(planet_radius * 2) + round(satellite['radius'])
+    distance_from_planet = str(random.randint(lower_bound, upper_bound))
+    return create_translate_xyz(doc, distance_from_planet, '0', '0')
+    
 
 def create_rotate(doc, max_x, y, max_z, max_angle):
     rotate = doc.createElement('rotate')
@@ -97,71 +111,116 @@ def create_rotate(doc, max_x, y, max_z, max_angle):
     return rotate
 
 
-def create_groups(doc, world, data):
-    for obj in data:
-        group = doc.createElement('group')
-        
-        if obj['hasRingSystem']:
-            transform = doc.createElement('transform')
-            
-            rotate = create_rotate(doc, 0.2, 1, 0.2, 360)
-            transform.appendChild(rotate)
-            
-            translate = create_translate(doc, obj)
-            transform.appendChild(translate)
-            
-            scale = create_scale(doc, obj)
-            transform.appendChild(scale)
-            
-            group.appendChild(transform)
-            
-            models = create_models(doc, SPHERE_MODEL)
-            group.appendChild(models)    
+def get_satellites(planet_id, satellites):
+    satellites_arr = []
+    for s in satellites:
+        if s['planetId'] == planet_id:
+            satellites_arr.append(s)
+    return satellites_arr
 
-            group_ring = doc.createElement('group')
-            transform = doc.createElement('transform')
-            rotate = create_rotate(doc, 0.2, 0, 0.2, 360)
-            transform.appendChild(rotate)
-            group_ring.appendChild(transform)
-            
-            models = create_models(doc, RING_MODEL)
-            group_ring.appendChild(models)  
-            
-            group.appendChild(group_ring)
-            
+
+def create_groups(doc, world, planets, satellites):
+    for obj in planets:
+        # main group
+        main_group = doc.createElement('group')
+        transform = doc.createElement('transform')
+        # main group - rotate
+        rotate = create_rotate(doc, 0.2, 1, 0.2, 360)
+        transform.appendChild(rotate)
+         # main group - translate
+        translate = create_translate(doc, obj)
+        transform.appendChild(translate)
+        main_group.appendChild(transform)  # append transform to main group
+        
+         # planet group
+        planet_group = doc.createElement('group')
+        
+        comment = doc.createComment(obj['name'])
+        planet_group.appendChild(comment)
+        
+        color = doc.createElement('color')
+        r, g, b = get_color_for_temperature(obj['meanTemperature'])
+        color.setAttribute('r', str(r))
+        color.setAttribute('g', str(g))
+        color.setAttribute('b', str(b))
+        planet_group.appendChild(color)
+        
+        animation = doc.createElement('animation')
+        orbital_velocity = str(round(obj['orbitalVelocity']))
+        rotation_period = str(round(obj['rotationPeriod']))
+        animation.setAttribute('orbitalVelocity', orbital_velocity)
+        animation.setAttribute('rotationPeriod', rotation_period)
+        planet_group.appendChild(animation)
+        
+        transform = doc.createElement('transform')
+         # planet group - scale
+        scale = create_scale(doc, obj)
+        transform.appendChild(scale)
+        planet_group.appendChild(transform)
+        
+        planet_models = create_models(doc, SPHERE_MODEL)
+        
+        if (obj['hasRingSystem']):
+            planet_models = create_models(doc, [SPHERE_MODEL, RING_MODEL])
         else:
-            group = doc.createElement('group')
+            planet_models = create_models(doc, [SPHERE_MODEL])
+            
+        planet_group.appendChild(planet_models)    
+        main_group.appendChild(planet_group) # append planet_group to main_group
+        
+        satellites_arr = get_satellites(obj['id'], satellites)
+        
+        max_satellites = 3
+        counter = 0
+        for s in satellites_arr:
+            if counter > max_satellites:
+                break
+            counter += 1
+            
+            s_group = doc.createElement('group')
+            
+            comment = doc.createComment(s['name'])
+            s_group.appendChild(comment)
+            
             transform = doc.createElement('transform')
             
+            # rotate
             rotate = create_rotate(doc, 0.2, 1, 0.2, 360)
             transform.appendChild(rotate)
             
-            translate = create_translate(doc, obj)
+            # translate
+            translate = create_translate_satellite(doc, obj, s)
             transform.appendChild(translate)
             
-            scale = create_scale(doc, obj)
+            #scale
+            scale = create_scale_satellite(doc, s)
             transform.appendChild(scale)
+            s_group.appendChild(transform)
             
-            group.appendChild(transform)
+            s_models = create_models(doc, [LOWER_RES_SPHERE_MODEL])
+            s_group.appendChild(s_models)
             
-            models = create_models(doc, SPHERE_MODEL)
-            group.appendChild(models)    
+            main_group.appendChild(s_group)
             
-        world.appendChild(group)
+        world.appendChild(main_group)
     
     
-def create_models(doc, model_file):
+def create_models(doc, model_files):
     models = doc.createElement('models')
-    model = doc.createElement('model')
-    model.setAttribute('file', model_file)
-    models.appendChild(model)
+    for model_file in model_files:
+        model = doc.createElement('model')
+        model.setAttribute('file', model_file)
+        models.appendChild(model)
     return models
 
 
 def main():
     # o sol não está completamente à escala, o diametro devia ser 1391400 e não 1391400
     with open('planets_and_sun.json', 'r') as file:
-        data = json.load(file)
+        planets = json.load(file)
+        
+    with open('satellites.json', 'r') as file:
+        satellites = json.load(file)
                 
     doc = minidom.Document()
     world = doc.createElement("world")
@@ -169,7 +228,7 @@ def main():
     
     create_window(doc, world)
     create_camera(doc, world)
-    create_groups(doc, world, data)
+    create_groups(doc, world, planets, satellites)
     
     with open("test_2_6.xml", "w", encoding="utf-8") as xml_file:
         xml_file.write(doc.toprettyxml(indent="\t").split('\n', 1)[1])
