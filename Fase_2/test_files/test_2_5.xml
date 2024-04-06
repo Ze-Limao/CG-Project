@@ -1,7 +1,7 @@
 <world>
     <window width="512" height="512" />
     <camera>
-        <position x="30" y="40" z="80" />
+        <position x="100" y="100" z="80" />
         <lookAt x="0" y="0" z="0" />
         <up x="0" y="1" z="0" />
         <projection fov="30" near="1" far="1000" />
@@ -96,7 +96,7 @@
                 <scale x="1" y="1" z="1"/> <!-- Tamanho do Anel -->
             </transform>
             <models>
-                <model file="ring_1_1_20.3d" /> <!-- Anel de Saturno -->
+                <model file="ring_10_15_20.3d" /> <!-- Anel de Saturno -->
             </models>
         </group>
     </group>
