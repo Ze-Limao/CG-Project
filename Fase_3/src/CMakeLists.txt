@@ -12,6 +12,8 @@ add_library(
     ./utils/point.hpp
     ./utils/figure.cpp
     ./utils/figure.hpp
+	./utils/matrix.cpp
+	./utils/matrix.hpp
 )
 
 add_library(
@@ -32,6 +34,8 @@ add_library(
 	./generator/plane.hpp
 	./generator/cone.cpp
 	./generator/cone.hpp
+	./generator/bezier.cpp
+	./generator/bezier.hpp
 )
 
 add_library(

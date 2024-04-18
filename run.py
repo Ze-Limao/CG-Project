@@ -22,6 +22,11 @@ test_info = {
         4: ['box 2 3 box_2_3.3d'],
         5: ['sphere 1 20 20 sphere_1_20_20.3d', 'ring 10 15 20 ring_10_15_20.3d'],
         6: ['sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
+    },
+    3: {
+        1: ['patch 10 ../patches/teapot.patch bezier_10.3d'],
+        2: ['patch 10 ../patches/teapot.patch bezier_10.3d'],
+        3: ['patch 10 ../patches/teapot.patch bezier_10.3d']
     }
 }
 

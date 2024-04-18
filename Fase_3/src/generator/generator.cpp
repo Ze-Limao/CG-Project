@@ -3,16 +3,117 @@
 #include "box.hpp"
 #include "cone.hpp"
 #include "ring.hpp"
+#include "bezier.hpp"
 
 #include "../utils/figure.hpp"
+#include "../utils/matrix.hpp"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
 using namespace std;
 
+vector<vector<Point>> read_patches_file(const char* file_path) {
+    ifstream input_file(file_path);
+
+    if (!input_file.is_open()) {
+        cerr << "[read_patches_file] Error opening file" << endl;
+        return vector<vector<Point>>();
+    }
+
+    string line;
+    if (!getline(input_file, line)) {
+        cerr << "[read_patches_file] Error reading line" << endl;
+        return vector<vector<Point>>();
+    }
+
+    int num_patches;
+    istringstream(line) >> num_patches;
+
+    vector<vector<int>> idxs_per_patch;
+    for (int i = 0; i < num_patches && getline(input_file, line); i++) {
+        std::istringstream iss(line);
+        vector<int> idxs;
+        int value;
+        char comma;
+
+        while (iss >> value >> comma) idxs.push_back(value);
+        if (iss.eof()) idxs.push_back(value);
+
+        idxs_per_patch.push_back(idxs);
+    }
+
+    if (!getline(input_file, line)) {
+        cerr << "[read_patches_file] Error reading line" << endl;
+        return vector<vector<Point>>();
+    }
+
+    int num_pontos;
+    istringstream(line) >> num_pontos;
+
+    vector<Point> control_points;
+    for (int i = 0; i < num_pontos && getline(input_file, line); i++) {
+        std::istringstream iss(line);
+        float x, y, z;
+        char comma;
+        if (!(iss >> x >> comma >> y  >> comma >> z)) {
+            cerr << "[read_patches_file] Error reading control point at line " << i + 1 << endl;
+            return vector<vector<Point>>();
+        }
+        control_points.push_back(Point(x, y, z));
+    }
+
+    vector<vector<Point>> result;
+    for (vector<int> idxs : idxs_per_patch) {
+        vector<Point> patch;
+        for (int idx : idxs) {
+            patch.push_back(Point(control_points[idx]));
+        }
+        result.push_back(patch);
+    }
+
+    input_file.close();
+    return result;
+}
+
+Figure* generate_figure_from_patches(const char* file_path, int tesselation) {
+
+    float u = 0.0f;
+    float v = 0.0f;
+    float delta = 1.0f / tesselation;
+
+    vector<Point> result;
+    vector<vector<Point>> points_per_patch = read_patches_file(file_path);
+    for (vector<Point> patch: points_per_patch) {  // 16 pontos
+        for (int i = 0; i < tesselation; i++, u += delta) {
+            for (int j = 0; j < tesselation; j++, v += delta) {
+
+                Point a = Point::surface_point(u, v, patch);
+                Point b = Point::surface_point(u, v + delta, patch);
+                Point c = Point::surface_point(u + delta, v, patch);
+                Point d = Point::surface_point(u + delta, v + delta, patch);
+
+                result.push_back(c);
+                result.push_back(a);
+                result.push_back(b);
+                result.push_back(b);
+                result.push_back(d);
+                result.push_back(c);
+            }
+            v = 0.0f;
+        }
+        u = v = 0.0f;
+    }
+
+    return nullptr;
+}
 
 int main(int argc, char *argv[]){
     if (argc >= 5){
@@ -55,6 +156,15 @@ int main(int argc, char *argv[]){
             args.insert(args.end(), { radius, radius2, slices});
             figure = new Ring(radius, radius2, slices);
         }
+        else if (strcmp(argv[1], "patch") == 0) {
+            int tessellation = atoi(argv[2]);
+            const char* patches_file_path = argv[3];
+            file_path = argv[4];
+
+            args.insert(args.end(), { tessellation });
+            vector<vector<Point>> points_per_patch = read_patches_file(patches_file_path);
+            figure = new Bezier(tessellation, points_per_patch);
+        }
         else {
             printf("Invalid\n");
             return 1;
@@ -62,13 +172,6 @@ int main(int argc, char *argv[]){
 
         figure->generate_points();
         figure->to_file(file_path, args, figure->get_type());
-
-        /*Figure* f = Figure::from_file(file_path);
-
-        if (f->get_type() == Figure::FigureType::SPHERE) {
-            std::cout << "Sphere!" << std::endl;
-            Sphere* sphere = dynamic_cast<Sphere*>(f);
-        }*/
 
         args.clear();
         delete figure;

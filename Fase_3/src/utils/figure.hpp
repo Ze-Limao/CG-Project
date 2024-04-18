@@ -15,7 +15,7 @@ public:
     ~Figure();
 
     std::vector<Point> points;
-    enum FigureType { FIGURE = 0, BOX = 1, CONE = 2, PLANE = 3, SPHERE = 4, RING = 5 };
+    enum FigureType { FIGURE = 0, BOX = 1, CONE = 2, PLANE = 3, SPHERE = 4, RING = 5, BEZIER = 6 };
 
     void add_point(const Point& point);
     void to_file(const std::string& path, const std::vector<int>& args, FigureType type);

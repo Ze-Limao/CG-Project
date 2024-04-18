@@ -12,6 +12,7 @@
 #include "../generator/plane.hpp"
 #include "../generator/sphere.hpp"
 #include "../generator/ring.hpp"
+#include "../generator/bezier.hpp"
 
 Figure::Figure() {}
 Figure::Figure(const std::vector<Point>& points) : points(points) {}
@@ -87,7 +88,10 @@ Figure* Figure::from_file(const std::string& path) {
         instance = new Sphere(args.at(0), args.at(1), args.at(2), points);
     } else if (type == FigureType::RING && args.size() >= 3) {
         instance = new Ring(args.at(0), args.at(1), args.at(2), points);
-    } else {
+    } else if (type == FigureType::BEZIER && args.size() >= 1) {
+        instance = new Bezier(args.at(0), {}, points);
+    }
+    else {
         std::cerr << "Incorrect number of arguments for type T." << std::endl;
     }
 
