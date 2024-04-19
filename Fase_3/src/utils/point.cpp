@@ -62,4 +62,19 @@ Point Point::new_sph_point(float a, float b, float radius) {
 	return Point(x, y, z);
 }
 
+void Point::normalize() {
+	float l = sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
+	this->x = this->x / l;
+	this->y = this->y / l;
+	this->z = this->z / l;
+}
+
+Point* Point::cross(Point* a, Point* b) {
+	return new Point(
+		a->y * b->z - a->z * b->y,
+		a->z * b->x - a->x * b->z,
+		a->x * b->y - a->y * b->x
+	);
+}
+
 Point::~Point() {}

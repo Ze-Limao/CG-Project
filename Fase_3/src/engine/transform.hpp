@@ -6,24 +6,20 @@
 
 class Transform {
 public:
-    enum TransformType { TRANSLATE = 1, SCALE = 2, ROTATE = 3 };
+    enum TransformType { TRANSLATE = 1, SCALE = 2, ROTATE = 3, TRANSLATE_ANIMATION = 4, ROTATE_ANIMATION = 5 };
 
     Transform(float x, float y, float z, float angle, TransformType type);
+    Transform(float time, bool align, std::vector<Point>& points);  // TRANSLATE_ANIMATION
+    Transform(float x, float y, float z, float time);  // ROTATE_ANIMATION
     ~Transform();
 
-    bool is_dynamic = false;
     float x, y, z, angle;
     TransformType type;
-};
-
-class DynamicTransform : public Transform{
-public:
-    DynamicTransform(float x, float y, float z, TransformType type, float time, bool align, std::vector<Point>& points, float *axis);
 
     bool align;
     float time;
     std::vector<Point> points;
-    float axis[3];
+    Point* y_axis = new Point(0, 1, 0);
 };
 
 #endif // TRANSFORM_HPP

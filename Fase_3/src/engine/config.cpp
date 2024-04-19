@@ -2,6 +2,17 @@
 #include "group.hpp"
 #include "transform.hpp"
 
+#include <cctype>
+#include <algorithm>
+
+static bool ichar_equals(char a, char b) {
+    return std::tolower(static_cast<unsigned char>(a)) ==
+        std::tolower(static_cast<unsigned char>(b));
+}
+
+static bool iequals(const std::string& a, const std::string& b) {
+    return std::equal(a.begin(), a.end(), b.begin(), b.end(), ichar_equals);
+}
 
 Config::~Config() {
     delete group;
@@ -67,28 +78,63 @@ Group* Config::parse_groups(tinyxml2::XMLElement* xml_group) {
             for (tinyxml2::XMLElement* t = xml_transform->FirstChildElement(); t; t = t->NextSiblingElement()) {
 
                 const char* name = t->Value();
-                Transform::TransformType type;
                 float angle = 0.0f;
 
                 if (strcmp(name, "translate") == 0 && !translate) {
-                    type = Transform::TransformType::TRANSLATE;
                     translate = true;
+
+                    if (t->Attribute("time") || t->Attribute("align")) {
+                        float time = t->Attribute("time") ? static_cast<float>(atof(t->Attribute("time"))) : 0.0f;
+                        float align = t->Attribute("align") ? (iequals(t->Attribute("align"), "true") == 0 ? true : false) : false;
+
+                        vector<Point> points;
+                        for (tinyxml2::XMLElement* p = t->FirstChildElement("point"); p; p = p->NextSiblingElement()) {
+                            points.push_back(Point(
+                                static_cast<float>(atof(p->Attribute("x"))),
+                                static_cast<float>(atof(p->Attribute("y"))),
+                                static_cast<float>(atof(p->Attribute("z")))
+                            ));
+                        }
+
+                        Transform::TransformType type = Transform::TransformType::TRANSLATE_ANIMATION;
+                        group->transforms.push_back(new Transform(time, align, points));
+                    }
+                    else {
+                        float x = static_cast<float>(atof(t->Attribute("x")));
+                        float y = static_cast<float>(atof(t->Attribute("y")));
+                        float z = static_cast<float>(atof(t->Attribute("z")));
+
+                        Transform::TransformType type = Transform::TransformType::TRANSLATE;
+                        group->transforms.push_back(new Transform(x, y, z, angle, type));
+                    }
+
                 } else if (strcmp(name, "scale") == 0 && !scale) {
-                    type = Transform::TransformType::SCALE; 
                     scale = true;
+                    Transform::TransformType type = Transform::TransformType::SCALE;
+
+                    float x = static_cast<float>(atof(t->Attribute("x")));
+                    float y = static_cast<float>(atof(t->Attribute("y")));
+                    float z = static_cast<float>(atof(t->Attribute("z")));
+
+                    group->transforms.push_back(new Transform(x, y, z, angle, type));
+
                 } else if (strcmp(name, "rotate") == 0 && !rotate) {
-                    type = Transform::TransformType::ROTATE; 
-                    angle = static_cast<float>(atof(t->Attribute("angle")));
                     rotate = true;
-                } else { 
-                    continue; 
+
+                    float x = static_cast<float>(atof(t->Attribute("x")));
+                    float y = static_cast<float>(atof(t->Attribute("y")));
+                    float z = static_cast<float>(atof(t->Attribute("z")));
+
+                    if (t->Attribute("angle")) {
+                        Transform::TransformType type = Transform::TransformType::ROTATE;
+                        float angle = static_cast<float>(atof(t->Attribute("angle")));
+                        group->transforms.push_back(new Transform(x, y, z, angle, type));
+                    } else {
+                        Transform::TransformType type = Transform::TransformType::ROTATE_ANIMATION;
+                        float time = static_cast<float>(atof(t->Attribute("time")));
+                        group->transforms.push_back(new Transform(x, y, z, time));
+                    }
                 }
-
-                float x = static_cast<float>(atof(t->Attribute("x")));
-                float y = static_cast<float>(atof(t->Attribute("y")));
-                float z = static_cast<float>(atof(t->Attribute("z")));
-
-                group->transforms.push_back(new Transform(x, y, z, angle, type));
             }
         }
 

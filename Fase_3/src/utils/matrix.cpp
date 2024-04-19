@@ -17,24 +17,23 @@ void multiply_matrices(
 	}
 }
 
-void build_rotation_matrix(const float* x, const float* y, const float* z, float* m) {
-	m[0] = x[0]; m[1] = x[1]; m[2] = x[2]; m[3] = 0;
-	m[4] = y[0]; m[5] = y[1]; m[6] = y[2]; m[7] = 0;
-	m[8] = z[0]; m[9] = z[1]; m[10] = z[2]; m[11] = 0;
+void build_rotation_matrix(Point* a, Point* b, Point* c, float* m) {
+	m[0] = a->x; 
+	m[1] = a->y;
+	m[2] = a->z;
+	m[3] = 0;
+
+	m[4] = b->x;
+	m[5] = b->y;
+	m[6] = b->z;
+	m[7] = 0;
+
+	m[8] = c->x;
+	m[9] = c->y;
+	m[10] = c->z;
+	m[11] = 0;
+
 	m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 1;
-}
-
-void cross(const float* a, const float* b, float* res) {
-	res[0] = a[1] * b[2] - a[2] * b[1];
-	res[1] = a[2] * b[0] - a[0] * b[2];
-	res[2] = a[0] * b[1] - a[1] * b[0];
-}
-
-void normalize(float* a) {
-	float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
-	a[0] = a[0] / l;
-	a[1] = a[1] / l;
-	a[2] = a[2] / l;
 }
 
 float length(float* a) {
@@ -68,7 +67,7 @@ void get_catmull_rom_point(float t, Point p0, Point p1, Point p2, Point p3, Poin
 	float A[12]; // 4x3
 	multiply_matrices(4, 4, m, 4, 3, P, A);
 
-	float T[4] = { t * t * t,t * t,t,1 }, DERT[4] = { 3 * t * t,2 * t,1,0 }; // T-> 1x4, DERT -> 1x4
+	float T[4] = { t * t * t, t * t, t, 1 }, DERT[4] = { 3 * t * t, 2 * t, 1, 0 }; // T-> 1x4, DERT -> 1x4
 
 	if (pos) {
 		float res_1[3];

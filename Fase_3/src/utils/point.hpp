@@ -19,8 +19,11 @@ public:
     Point invertX();
     Point invertY();
     Point invertZ();
+    void normalize();
+
     static Point surface_point(float u, float v, vector<Point> patch);
     static Point new_sph_point(float a, float b, float radius);
+    static Point* cross(Point* a, Point* b);
 };
 
 #endif // POINT_HPP

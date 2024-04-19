@@ -9,11 +9,7 @@ using namespace std;
 
 void multiply_matrices(int la, int ca, const float* A, int lb, int cb, const float* B, float* R, int* lr = NULL, int* cr = NULL);
 
-void build_rotation_matrix(const float* x, const float* y, const float* z, float* m);
-
-void cross(const float* a, const float* b, float* res);
-
-void normalize(float* a);
+void build_rotation_matrix(Point* a, Point* b, Point* c, float* m);
 
 float length(float* a);
 

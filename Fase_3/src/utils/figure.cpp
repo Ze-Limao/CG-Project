@@ -97,3 +97,13 @@ Figure* Figure::from_file(const std::string& path) {
 
     return instance;
 }
+
+vector<float> Figure::to_vector() {
+    vector<float> result;
+    for (Point p : this->points) {
+        result.push_back(p.x);
+        result.push_back(p.y);
+        result.push_back(p.z);
+    }
+    return result;
+}

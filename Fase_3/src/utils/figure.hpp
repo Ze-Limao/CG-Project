@@ -19,6 +19,7 @@ public:
 
     void add_point(const Point& point);
     void to_file(const std::string& path, const std::vector<int>& args, FigureType type);
+    vector<float> to_vector();
     static Figure* from_file(const std::string& path);
     
     virtual void generate_points() = 0;    
