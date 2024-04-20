@@ -85,7 +85,7 @@ Group* Config::parse_groups(tinyxml2::XMLElement* xml_group) {
 
                     if (t->Attribute("time") || t->Attribute("align")) {
                         float time = t->Attribute("time") ? static_cast<float>(atof(t->Attribute("time"))) : 0.0f;
-                        float align = t->Attribute("align") ? (iequals(t->Attribute("align"), "true") == 0 ? true : false) : false;
+                        float align = t->Attribute("align") ? (iequals(t->Attribute("align"), "true") ? true : false) : false;
 
                         vector<Point> points;
                         for (tinyxml2::XMLElement* p = t->FirstChildElement("point"); p; p = p->NextSiblingElement()) {

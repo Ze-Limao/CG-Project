@@ -83,38 +83,6 @@ vector<vector<Point>> read_patches_file(const char* file_path) {
     return result;
 }
 
-Figure* generate_figure_from_patches(const char* file_path, int tesselation) {
-
-    float u = 0.0f;
-    float v = 0.0f;
-    float delta = 1.0f / tesselation;
-
-    vector<Point> result;
-    vector<vector<Point>> points_per_patch = read_patches_file(file_path);
-    for (vector<Point> patch: points_per_patch) {  // 16 pontos
-        for (int i = 0; i < tesselation; i++, u += delta) {
-            for (int j = 0; j < tesselation; j++, v += delta) {
-
-                Point a = Point::surface_point(u, v, patch);
-                Point b = Point::surface_point(u, v + delta, patch);
-                Point c = Point::surface_point(u + delta, v, patch);
-                Point d = Point::surface_point(u + delta, v + delta, patch);
-
-                result.push_back(c);
-                result.push_back(a);
-                result.push_back(b);
-                result.push_back(b);
-                result.push_back(d);
-                result.push_back(c);
-            }
-            v = 0.0f;
-        }
-        u = v = 0.0f;
-    }
-
-    return nullptr;
-}
-
 int main(int argc, char *argv[]){
     if (argc >= 5){
         Figure* figure;

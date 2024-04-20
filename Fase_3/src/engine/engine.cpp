@@ -277,12 +277,12 @@ void specKeyProc(int key_code, int x, int y) {
 	x = y; y = x;
 	switch (key_code) {
 	case GLUT_KEY_UP: {
-		radius -= 0.7f;
+		radius -= 2.0f;
 		break;
 	}
 
 	case GLUT_KEY_DOWN: {
-		radius += 0.7f;
+		radius += 2.0f;
 		break;
 	}
 	case GLUT_KEY_LEFT: {

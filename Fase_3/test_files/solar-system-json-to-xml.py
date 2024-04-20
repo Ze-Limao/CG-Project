@@ -6,6 +6,13 @@ import random
 SPHERE_MODEL = 'sphere_1_12_12.3d'
 LOWER_RES_SPHERE_MODEL = 'sphere_1_5_5.3d'
 RING_MODEL = 'ring_3_4_20.3d'
+BEZIER_COMET = 'bezier_10.3d'
+
+PLANET_SCALE = 0.001
+SUN_SCALE = 0.0004
+MOON_SCALE = 0.001
+DISTANCE_SCALE = 0.9
+COMET_ORBIT_SCALE = 500
 
 
 def get_color_for_temperature(temperature):
@@ -32,9 +39,9 @@ def create_camera(doc, world):
     camera = doc.createElement("camera")
 
     position = doc.createElement("position")
-    position.setAttribute("x", "200")
-    position.setAttribute("y", "200")
-    position.setAttribute("z", "200")
+    position.setAttribute("x", "750")
+    position.setAttribute("y", "150")
+    position.setAttribute("z", "750")
     camera.appendChild(position)
     
     lookAt = doc.createElement("lookAt")
@@ -52,7 +59,7 @@ def create_camera(doc, world):
     projection = doc.createElement("projection")
     projection.setAttribute("fov", "90")
     projection.setAttribute("near", "100")
-    projection.setAttribute("far", "7000")
+    projection.setAttribute("far", "10000")
     camera.appendChild(projection)
     
     world.appendChild(camera)
@@ -75,25 +82,29 @@ def create_translate_xyz(doc, x, y, z):
 
 
 def create_scale(doc, obj):
-    r = str(round((obj['diameter'] / 2.0) / 1000.0)) # tecnicamente devia ser a dividir por 1000000 para ficar à
-                                                     # escala porque a distância entre os planetas e o sol está em 10^6
+    if obj['name'] == "Sun":
+        r = str(round((obj['diameter'] / 2.0) * SUN_SCALE))
+    else:    
+        r = str(round((obj['diameter'] / 2.0) * PLANET_SCALE))
     return create_scale_xyz(doc, r, r, r)
 
 
 def create_scale_satellite(doc, obj):
-    r = str(round(obj['radius'] / 1000.0))
+    r = str(round(obj['radius']) * MOON_SCALE)
     return create_scale_xyz(doc, r, r, r)
 
 
 def create_translate(doc, obj):
-    distance_from_sun = str(round(obj['distanceFromSun']))
+    if obj['name'] == "Sun":
+        return create_translate_xyz(doc, 0, 0, 0);
+    distance_from_sun = str(round(obj['distanceFromSun'] * DISTANCE_SCALE + obj['distanceFromSun'] ** (200 / (obj['distanceFromSun']) * DISTANCE_SCALE)))
     return create_translate_xyz(doc, distance_from_sun, '0', '0')
 
 
 def create_translate_satellite(doc, obj, satellite):
-    planet_radius = round((obj['diameter'] / 2.0) / 1000.0)
-    lower_bound = planet_radius + round(satellite['radius'])
-    upper_bound = int(planet_radius * 2) + round(satellite['radius'])
+    planet_radius = round((obj['diameter'] / 2.0) * PLANET_SCALE)
+    lower_bound = planet_radius + round(satellite['radius'] * MOON_SCALE)
+    upper_bound = int(planet_radius * 2) + round(satellite['radius'] * MOON_SCALE)
     distance_from_planet = str(random.randint(lower_bound, upper_bound))
     return create_translate_xyz(doc, distance_from_planet, '0', '0')
     
@@ -137,20 +148,6 @@ def create_groups(doc, world, planets, satellites):
         
         comment = doc.createComment(obj['name'])
         planet_group.appendChild(comment)
-        
-        color = doc.createElement('color')
-        r, g, b = get_color_for_temperature(obj['meanTemperature'])
-        color.setAttribute('r', str(r))
-        color.setAttribute('g', str(g))
-        color.setAttribute('b', str(b))
-        planet_group.appendChild(color)
-        
-        animation = doc.createElement('animation')
-        orbital_velocity = str(round(obj['orbitalVelocity']))
-        rotation_period = str(round(obj['rotationPeriod']))
-        animation.setAttribute('orbitalVelocity', orbital_velocity)
-        animation.setAttribute('rotationPeriod', rotation_period)
-        planet_group.appendChild(animation)
         
         transform = doc.createElement('transform')
          # planet group - scale
@@ -214,8 +211,73 @@ def create_models(doc, model_files):
     return models
 
 
+def create_point(doc, x, y, z):
+    point = doc.createElement('point')
+    point.setAttribute('x', x)
+    point.setAttribute('y', y)
+    point.setAttribute('z', z)
+    return point
+
+
+def create_comet(doc, world):
+    main_group = doc.createElement('group')
+    transform = doc.createElement('transform')    
+    
+    # translate
+    translate = doc.createElement('translate')
+    translate.setAttribute('time', '10')    
+    translate.setAttribute('align', 'true')
+    
+    x_values = [ 1, 0, -1, 0 ]
+    z_values = [ 0, 1, 0, -1 ]
+    
+    for x, z in zip(x_values, z_values):
+        point = create_point(doc, str(x * COMET_ORBIT_SCALE), '0', str(z * COMET_ORBIT_SCALE))
+        translate.appendChild(point)
+    
+    transform.appendChild(translate)
+      
+    # rotate
+    rotate = doc.createElement('rotate')
+    rotate.setAttribute('x', '1')
+    rotate.setAttribute('y', '0')
+    rotate.setAttribute('z', '0')
+    rotate.setAttribute('angle', '-90')
+    transform.appendChild(rotate)
+      
+    # scale
+    scale = create_scale_xyz(doc, '20', '20', '20')
+    transform.appendChild(scale)
+    
+    main_group.appendChild(transform)
+    
+    comet_model = create_models(doc, [BEZIER_COMET])
+    main_group.appendChild(comet_model)
+    
+    # inner group -- RING kekw
+    inner_group = doc.createElement('group')
+    ring_model = create_models(doc, [RING_MODEL])
+    inner_group.appendChild(ring_model)
+    
+    transform = doc.createElement('transform') 
+    rotate = doc.createElement('rotate')
+    rotate.setAttribute('x', '1')
+    rotate.setAttribute('y', '0')
+    rotate.setAttribute('z', '0')
+    rotate.setAttribute('angle', '90')
+    transform.appendChild(rotate)
+    
+    translate = create_translate_xyz(doc, '0', '1', '0');
+    transform.appendChild(translate)
+    
+    inner_group.appendChild(transform)
+    
+    # end
+    main_group.appendChild(inner_group)
+    world.appendChild(main_group)
+
+
 def main():
-    # o sol não está completamente à escala, o diametro devia ser 1391400 e não 1391400
     with open('planets_and_sun.json', 'r') as file:
         planets = json.load(file)
         
@@ -229,6 +291,8 @@ def main():
     create_window(doc, world)
     create_camera(doc, world)
     create_groups(doc, world, planets, satellites)
+    
+    create_comet(doc, world)
     
     with open("test_3_5.xml", "w", encoding="utf-8") as xml_file:
         xml_file.write(doc.toprettyxml(indent="\t").split('\n', 1)[1])
