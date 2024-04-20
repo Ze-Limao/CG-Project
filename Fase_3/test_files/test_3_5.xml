@@ -8,7 +8,7 @@
 	</camera>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="301"/>
+			<rotate x="0" y="1" z="0" angle="162"/>
 			<translate x="" y="" z=""/>
 		</transform>
 		<group>
@@ -23,8 +23,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="27"/>
-			<translate x="23550" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="168"/>
+			<translate x="348" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Mercury-->
@@ -38,8 +38,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="146"/>
-			<translate x="2519" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="171"/>
+			<translate x="376" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Venus-->
@@ -53,8 +53,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="25"/>
-			<translate x="549" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="164"/>
+			<translate x="413" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Earth-->
@@ -68,8 +68,8 @@
 		<group>
 			<!--Moon-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="322"/>
-				<translate x="14" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="40"/>
+				<translate x="12" y="0" z="0"/>
 				<scale x="1.738" y="1.738" z="1.738"/>
 			</transform>
 			<models>
@@ -79,8 +79,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="300"/>
-			<translate x="278" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="325"/>
+			<translate x="483" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Mars-->
@@ -94,8 +94,8 @@
 		<group>
 			<!--Phobos-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="286"/>
-				<translate x="6" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="107"/>
+				<translate x="3" y="0" z="0"/>
 				<scale x="0.011" y="0.011" z="0.011"/>
 			</transform>
 			<models>
@@ -105,8 +105,8 @@
 		<group>
 			<!--Deimos-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="343"/>
-				<translate x="6" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="71"/>
+				<translate x="3" y="0" z="0"/>
 				<scale x="0.006" y="0.006" z="0.006"/>
 			</transform>
 			<models>
@@ -116,8 +116,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="288"/>
-			<translate x="705" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="266"/>
+			<translate x="979" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Jupiter-->
@@ -131,8 +131,8 @@
 		<group>
 			<!--Io-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="190"/>
-				<translate x="111" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="143"/>
+				<translate x="89" y="0" z="0"/>
 				<scale x="1.822" y="1.822" z="1.822"/>
 			</transform>
 			<models>
@@ -142,8 +142,8 @@
 		<group>
 			<!--Europa-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="261"/>
-				<translate x="140" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="124"/>
+				<translate x="74" y="0" z="0"/>
 				<scale x="1.561" y="1.561" z="1.561"/>
 			</transform>
 			<models>
@@ -153,8 +153,8 @@
 		<group>
 			<!--Ganymede-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="327"/>
-				<translate x="81" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="70"/>
+				<translate x="135" y="0" z="0"/>
 				<scale x="2.6310000000000002" y="2.6310000000000002" z="2.6310000000000002"/>
 			</transform>
 			<models>
@@ -164,8 +164,8 @@
 		<group>
 			<!--Callisto-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="231"/>
-				<translate x="104" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="311"/>
+				<translate x="135" y="0" z="0"/>
 				<scale x="2.41" y="2.41" z="2.41"/>
 			</transform>
 			<models>
@@ -175,8 +175,8 @@
 		<group>
 			<!--Amalthea-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="271"/>
-				<translate x="119" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="300"/>
+				<translate x="77" y="0" z="0"/>
 				<scale x="0.083" y="0.083" z="0.083"/>
 			</transform>
 			<models>
@@ -186,8 +186,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="227"/>
-			<translate x="1293" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="281"/>
+			<translate x="1568" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Saturn-->
@@ -202,8 +202,8 @@
 		<group>
 			<!--Mimas-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="301"/>
-				<translate x="116" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="97"/>
+				<translate x="98" y="0" z="0"/>
 				<scale x="0.198" y="0.198" z="0.198"/>
 			</transform>
 			<models>
@@ -213,8 +213,8 @@
 		<group>
 			<!--Enceladus-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="264"/>
-				<translate x="98" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="356"/>
+				<translate x="114" y="0" z="0"/>
 				<scale x="0.252" y="0.252" z="0.252"/>
 			</transform>
 			<models>
@@ -224,8 +224,8 @@
 		<group>
 			<!--Tethys-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="352"/>
-				<translate x="103" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="17"/>
+				<translate x="101" y="0" z="0"/>
 				<scale x="0.533" y="0.533" z="0.533"/>
 			</transform>
 			<models>
@@ -235,8 +235,8 @@
 		<group>
 			<!--Dione-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="158"/>
-				<translate x="82" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="265"/>
+				<translate x="105" y="0" z="0"/>
 				<scale x="0.562" y="0.562" z="0.562"/>
 			</transform>
 			<models>
@@ -246,8 +246,8 @@
 		<group>
 			<!--Rhea-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="319"/>
-				<translate x="104" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="44"/>
+				<translate x="82" y="0" z="0"/>
 				<scale x="0.764" y="0.764" z="0.764"/>
 			</transform>
 			<models>
@@ -257,8 +257,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="257"/>
-			<translate x="2587" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="3"/>
+			<translate x="2864" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Uranus-->
@@ -272,8 +272,8 @@
 		<group>
 			<!--Ariel-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="359"/>
-				<translate x="48" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="44"/>
+				<translate x="36" y="0" z="0"/>
 				<scale x="0.579" y="0.579" z="0.579"/>
 			</transform>
 			<models>
@@ -283,8 +283,8 @@
 		<group>
 			<!--Umbriel-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="31"/>
-				<translate x="34" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="219"/>
+				<translate x="47" y="0" z="0"/>
 				<scale x="0.585" y="0.585" z="0.585"/>
 			</transform>
 			<models>
@@ -294,8 +294,8 @@
 		<group>
 			<!--Titania-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="231"/>
-				<translate x="30" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="37"/>
+				<translate x="48" y="0" z="0"/>
 				<scale x="0.789" y="0.789" z="0.789"/>
 			</transform>
 			<models>
@@ -305,8 +305,8 @@
 		<group>
 			<!--Oberon-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="306"/>
-				<translate x="35" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="105"/>
+				<translate x="38" y="0" z="0"/>
 				<scale x="0.761" y="0.761" z="0.761"/>
 			</transform>
 			<models>
@@ -316,8 +316,8 @@
 		<group>
 			<!--Miranda-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="60"/>
-				<translate x="33" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="342"/>
+				<translate x="46" y="0" z="0"/>
 				<scale x="0.23600000000000002" y="0.23600000000000002" z="0.23600000000000002"/>
 			</transform>
 			<models>
@@ -327,8 +327,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="27"/>
-			<translate x="4047" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="75"/>
+			<translate x="4324" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Neptune-->
@@ -342,7 +342,7 @@
 		<group>
 			<!--Triton-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="3"/>
+				<rotate x="0" y="1" z="0" angle="160"/>
 				<translate x="48" y="0" z="0"/>
 				<scale x="1.353" y="1.353" z="1.353"/>
 			</transform>
@@ -353,8 +353,8 @@
 		<group>
 			<!--Nereid-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="241"/>
-				<translate x="27" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="180"/>
+				<translate x="42" y="0" z="0"/>
 				<scale x="0.17" y="0.17" z="0.17"/>
 			</transform>
 			<models>
@@ -364,7 +364,7 @@
 		<group>
 			<!--Naiad-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="11"/>
+				<rotate x="0" y="1" z="0" angle="3"/>
 				<translate x="33" y="0" z="0"/>
 				<scale x="0.033" y="0.033" z="0.033"/>
 			</transform>
@@ -375,8 +375,8 @@
 		<group>
 			<!--Thalassa-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="193"/>
-				<translate x="48" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="181"/>
+				<translate x="42" y="0" z="0"/>
 				<scale x="0.041" y="0.041" z="0.041"/>
 			</transform>
 			<models>
@@ -386,8 +386,8 @@
 		<group>
 			<!--Despina-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="68"/>
-				<translate x="47" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="70"/>
+				<translate x="41" y="0" z="0"/>
 				<scale x="0.075" y="0.075" z="0.075"/>
 			</transform>
 			<models>
@@ -397,8 +397,8 @@
 	</group>
 	<group>
 		<transform>
-			<rotate x="0" y="1" z="0" angle="263"/>
-			<translate x="5317" y="0" z="0"/>
+			<rotate x="0" y="1" z="0" angle="296"/>
+			<translate x="5594" y="0" z="0"/>
 		</transform>
 		<group>
 			<!--Pluto-->
@@ -412,7 +412,7 @@
 		<group>
 			<!--Charon-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="186"/>
+				<rotate x="0" y="1" z="0" angle="18"/>
 				<translate x="3" y="0" z="0"/>
 				<scale x="0.604" y="0.604" z="0.604"/>
 			</transform>
@@ -423,8 +423,8 @@
 		<group>
 			<!--Nix-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="113"/>
-				<translate x="1" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="359"/>
+				<translate x="2" y="0" z="0"/>
 				<scale x="0.023" y="0.023" z="0.023"/>
 			</transform>
 			<models>
@@ -434,8 +434,8 @@
 		<group>
 			<!--Hydra-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="47"/>
-				<translate x="1" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="85"/>
+				<translate x="2" y="0" z="0"/>
 				<scale x="0.03" y="0.03" z="0.03"/>
 			</transform>
 			<models>
@@ -445,7 +445,7 @@
 		<group>
 			<!--Kerberos-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="128"/>
+				<rotate x="0" y="1" z="0" angle="318"/>
 				<translate x="1" y="0" z="0"/>
 				<scale x="0.014" y="0.014" z="0.014"/>
 			</transform>
@@ -456,8 +456,8 @@
 		<group>
 			<!--Styx-->
 			<transform>
-				<rotate x="0" y="1" z="0" angle="164"/>
-				<translate x="1" y="0" z="0"/>
+				<rotate x="0" y="1" z="0" angle="33"/>
+				<translate x="2" y="0" z="0"/>
 				<scale x="0.01" y="0.01" z="0.01"/>
 			</transform>
 			<models>

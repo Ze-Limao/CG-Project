@@ -1,6 +1,5 @@
 import json
 import xml.dom.minidom as minidom
-from enum import IntEnum
 import random
 
 SPHERE_MODEL = 'sphere_1_12_12.3d'
@@ -14,6 +13,8 @@ MOON_SCALE = 0.001
 DISTANCE_SCALE = 0.9
 COMET_ORBIT_SCALE = 500
 MAX_SATELLITES_PER_PLANET = 4
+SUN_DEFAULT_DIAMETER = 1391400
+
 
 def get_color_for_temperature(temperature):
     temperature_range = [-225, 5600]
@@ -97,7 +98,7 @@ def create_scale_satellite(doc, obj):
 def create_translate(doc, obj):
     if obj['name'] == "Sun":
         return create_translate_xyz(doc, 0, 0, 0);
-    distance_from_sun = str(round(obj['distanceFromSun'] * DISTANCE_SCALE + obj['distanceFromSun'] ** (200 / (obj['distanceFromSun']) * DISTANCE_SCALE)))
+    distance_from_sun = str(round(obj['distanceFromSun'] * DISTANCE_SCALE + ((SUN_DEFAULT_DIAMETER / 2.0) * SUN_SCALE)))
     return create_translate_xyz(doc, distance_from_sun, '0', '0')
 
 
