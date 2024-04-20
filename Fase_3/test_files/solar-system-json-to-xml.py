@@ -13,7 +13,7 @@ SUN_SCALE = 0.0004
 MOON_SCALE = 0.001
 DISTANCE_SCALE = 0.9
 COMET_ORBIT_SCALE = 500
-
+MAX_SATELLITES_PER_PLANET = 4
 
 def get_color_for_temperature(temperature):
     temperature_range = [-225, 5600]
@@ -167,10 +167,9 @@ def create_groups(doc, world, planets, satellites):
         
         satellites_arr = get_satellites(obj['id'], satellites)
         
-        max_satellites = 3
         counter = 0
         for s in satellites_arr:
-            if counter > max_satellites:
+            if counter > MAX_SATELLITES_PER_PLANET:
                 break
             counter += 1
             
