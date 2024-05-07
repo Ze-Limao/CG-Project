@@ -15,11 +15,42 @@
 #include "../generator/bezier.hpp"
 
 Figure::Figure() {}
-Figure::Figure(const std::vector<Point>& points) : points(points) {}
-Figure::~Figure() { points.clear(); }
+Figure::Figure(
+    const std::vector<Point>& points, 
+    const std::vector<Point>& normals, 
+    const std::vector<Point>& texture_coords
+) : points(points), normals(normals), texture_coords(texture_coords) {}
 
+Figure::~Figure() { 
+    points.clear(); 
+    normals.clear();
+    texture_coords.clear();
+    diffuse.clear();
+    ambient.clear();
+    specular.clear();
+    emissive.clear();
+}
+
+// fase 1, 2 e 3
 void Figure::add_point(const Point& point) {
     points.push_back(point);
+    normals.push_back(Point(0.0f, 0.0f, 0.0f));
+    texture_coords.push_back(Point(0.0f, 0.0f, 0.0f));
+}
+
+// fase 4
+void Figure::add_point_full(const Point& point, Point& normal, const Point& texture_coord) {
+    points.push_back(point);
+    normal.normalize();
+    normals.push_back(normal);
+    texture_coords.push_back(texture_coord);
+}
+
+void Figure::add_point_full(const Point& point, Point& normal) {
+    points.push_back(point);
+    normal.normalize();
+    normals.push_back(normal);
+    texture_coords.push_back(Point(0.0f, 0.0f, 0.0f));
 }
 
 void Figure::to_file(const std::string& path, const std::vector<int>& args, FigureType type) {
@@ -40,8 +71,13 @@ void Figure::to_file(const std::string& path, const std::vector<int>& args, Figu
     for (const auto& arg : args) { file << ';' << arg;  }
     file << '\n';
 
-    for (const auto& point : points) {
-        file << point.x << ';' << point.y << ';' << point.z << '\n';
+    for (unsigned int i = 0; i < points.size(); i++) {
+        Point p = points.at(i);
+        Point n = normals.at(i);
+        Point t = texture_coords.at(i);
+        file << p.x << ';' << p.y << ';' << p.z << ';';
+        file << n.x << ';' << n.y << ';' << n.z << ';';
+        file << t.x << ';' << t.y << '\n';
     }
 
     file.close();
@@ -94,11 +130,17 @@ Figure* Figure::from_file(const std::string& path) {
     FigureType type = static_cast<FigureType>(std::stoi(first_line.at(0)));
     int n_vertices = std::stoi(first_line.at(1));
     std::vector<Point> points(n_vertices);
+    std::vector<Point> normals(n_vertices);
+    std::vector<Point> texture_coords(n_vertices);
 
     while (std::getline(file, line)) {
         std::vector<std::string> tokens = split(line, ';');
-        Point point(std::stof(tokens.at(0)), std::stof(tokens.at(1)), std::stof(tokens.at(2)));
-        points.push_back(point);
+        Point p(std::stof(tokens.at(0)), std::stof(tokens.at(1)), std::stof(tokens.at(2)));
+        Point n(std::stof(tokens.at(3)), std::stof(tokens.at(4)), std::stof(tokens.at(5)));
+        Point t(std::stof(tokens.at(6)), std::stof(tokens.at(7)), 0.0f);
+        points.push_back(p);
+        normals.push_back(n);
+        texture_coords.push_back(t);
     }
 
     std::vector<int> args;
@@ -109,17 +151,17 @@ Figure* Figure::from_file(const std::string& path) {
     Figure* instance = nullptr;
 
     if (type == FigureType::BOX && args.size() >= 2) {
-        instance = new Box(args.at(0), args.at(1), points);
+        instance = new Box(args.at(0), args.at(1), points, normals, texture_coords);
     } else if (type == FigureType::CONE && args.size() >= 4) {
-        instance = new Cone(args.at(0), args.at(1), args.at(2), args.at(3), points);
+        instance = new Cone(args.at(0), args.at(1), args.at(2), args.at(3), points, normals, texture_coords);
     } else if (type == FigureType::PLANE && args.size() >= 2) {
-        instance = new Plane(args.at(0), args.at(1), 0, points);
+        instance = new Plane(args.at(0), args.at(1), 0, points, normals, texture_coords);
     } else if (type == FigureType::SPHERE && args.size() >= 3) {
-        instance = new Sphere(args.at(0), args.at(1), args.at(2), points);
+        instance = new Sphere(args.at(0), args.at(1), args.at(2), points, normals, texture_coords);
     } else if (type == FigureType::RING && args.size() >= 3) {
-        instance = new Ring(args.at(0), args.at(1), args.at(2), points);
+        instance = new Ring(args.at(0), args.at(1), args.at(2), points, normals, texture_coords);
     } else if (type == FigureType::BEZIER && args.size() >= 1) {
-        instance = new Bezier(args.at(0), {}, points);
+        instance = new Bezier(args.at(0), {}, points, normals, texture_coords);
     } else {
         std::cerr << "Incorrect number of arguments for type T." << std::endl;
         return nullptr;
@@ -131,8 +173,6 @@ Figure* Figure::from_file(const std::string& path) {
     instance->specular = specular;
     instance->emissive = emissive;
     instance->shininess = shininess;
-
-    std::cout << instance->to_string() << std::endl;
 
     return instance;
 }
@@ -157,9 +197,19 @@ std::string Figure::to_string() const {
     ss << "Emissive: " << emissive[0] << ", " << emissive[1] << ", " << emissive[2] << '\n';
     ss << "Shininess: " << shininess << '\n';
 
-    ss << "Points: " << '\n';
+    ss << "Points " << "(" << points.size() << "):" << '\n';
     for (const auto& point : points) {
         ss << "  (" << point.x << ", " << point.y << ", " << point.z << ")\n";
+    }
+
+    ss << "Normals " << "(" << normals.size() << "):" << '\n';
+    for (const auto& normal : normals) {
+        ss << "  (" << normal.x << ", " << normal.y << ", " << normal.z << ")\n";
+    }
+
+    ss << "Texture Coordinates " << "(" << texture_coords.size() << "):" << '\n';
+    for (const auto& texture_coord : texture_coords) {
+        ss << "  (" << texture_coord.x << ", " << texture_coord.y << ", " << texture_coord.z << ")\n";
     }
 
     return ss.str();

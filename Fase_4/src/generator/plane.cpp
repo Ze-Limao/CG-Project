@@ -1,6 +1,14 @@
 #include "plane.hpp"
 
-Plane::Plane(int length, int divisions, int height, const std::vector<Point>& points) : length(length), divisions(divisions), height(height), Figure(points) {}
+Plane::Plane
+(int length, 
+    int divisions, 
+    int height, 
+    const std::vector<Point>& points, 
+    const std::vector<Point>& normals, 
+    const std::vector<Point>& texture_coords
+) : length(length), divisions(divisions), height(height), Figure(points, normals, texture_coords) {}
+
 Plane::~Plane() {}
 
 void Plane::generate_points() {

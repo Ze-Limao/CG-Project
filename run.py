@@ -31,7 +31,7 @@ test_info = {
         5: ['patch 10 ../patches/teapot.patch bezier_10.3d sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
     },
     4: {
-         0: ['patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'], # teste da fase anterior
+         0: ['box 2 3 box_2_3.3d'], # teste da fase anterior
     }
 }
 

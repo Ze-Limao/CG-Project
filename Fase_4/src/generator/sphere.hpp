@@ -5,7 +5,14 @@
 
 class Sphere : public Figure {
 public:
-    Sphere(int radius, int slices, int stacks, const std::vector<Point>& points = {});
+    Sphere(
+        int radius, 
+        int slices, 
+        int stacks, 
+        const std::vector<Point>& points = {}, 
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_coords = {}
+    );
 
     ~Sphere();
 

@@ -5,7 +5,14 @@
 
 class Plane : public Figure {
 public:
-    Plane(int length, int divisions, int height = 0, const std::vector<Point>& points = {});
+    Plane(
+        int length, 
+        int divisions, 
+        int height = 0, 
+        const std::vector<Point>& points = {}, 
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_points = {}
+    );
 
     ~Plane();
 

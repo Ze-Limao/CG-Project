@@ -1,7 +1,14 @@
 #include "box.hpp"
 #include "plane.hpp"
 
-Box::Box(int length, int grid, const std::vector<Point>& points) : length(length), grid(grid), Figure(points) {}
+Box::Box(
+    int length, 
+    int grid, 
+    const std::vector<Point>& points, 
+    const std::vector<Point>& normals, 
+    const std::vector<Point>& texture_coords
+) : length(length), grid(grid), Figure(points, normals, texture_coords) {}
+
 Box::~Box() {}
 
 void Box::generate_points() {

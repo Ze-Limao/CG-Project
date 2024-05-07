@@ -5,7 +5,13 @@
 
 class Box : public Figure {
 public:
-    Box(int length, int grid, const std::vector<Point>& pointsVector = {});
+    Box(
+        int length, 
+        int grid, 
+        const std::vector<Point>& pointsVector = {}, 
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_coords = {}
+    );
 
     ~Box();
 

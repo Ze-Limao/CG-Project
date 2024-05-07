@@ -5,7 +5,13 @@
 
 class Bezier : public Figure {
 public:
-    Bezier(int tesselation, const std::vector<vector<Point>>& points_per_patch, const std::vector<Point>& points = {});
+    Bezier(
+        int tesselation, 
+        const std::vector<vector<Point>>& points_per_patch, 
+        const std::vector<Point>& points = {},
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_coords = {}
+    );
     ~Bezier();
 
     vector<vector<Point>> points_per_patch;

@@ -1,6 +1,14 @@
 #include "sphere.hpp"
 
-Sphere::Sphere(int radius, int slices, int stacks, const std::vector<Point>& points) : radius(radius), slices(slices), stacks(stacks), Figure(points) {}
+Sphere::Sphere(
+    int radius,
+    int slices, 
+    int stacks, 
+    const std::vector<Point>& points, 
+    const std::vector<Point>& normals,
+    const std::vector<Point>& texture_coords
+) : radius(radius), slices(slices), stacks(stacks), Figure(points, normals, texture_coords) {}
+
 Sphere::~Sphere() {}
 
 void Sphere::generate_points() {

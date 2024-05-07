@@ -143,6 +143,7 @@ void drawCatmullRomCurve(vector<Point> controlPoints) {
 		get_global_catmull_rom_point(t, controlPoints, pos, NULL);
 		glVertex3f(pos->x, pos->y, pos->z);
 	}
+	delete pos;
 	glEnd();
 }
 
@@ -190,6 +191,11 @@ void drawGroups(Group* group, int *index) {
 						float rotation_matrix[16];
 						build_rotation_matrix(deriv, y, z, rotation_matrix);
 						glMultMatrixf(rotation_matrix);
+
+						delete z;
+						delete y;
+						delete deriv; 
+						delete pos;
 					}
 				}
 				break;

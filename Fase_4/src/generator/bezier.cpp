@@ -1,6 +1,12 @@
 #include "bezier.hpp"
 
-Bezier::Bezier(int tesselation, const vector<vector<Point>>& points_per_patch, const std::vector<Point>& points) : Figure(points), points_per_patch(points_per_patch), tesselation(tesselation) {}
+Bezier::Bezier(
+    int tesselation, 
+    const vector<vector<Point>>& points_per_patch, 
+    const vector<Point>& points, 
+    const vector<Point>& normals, 
+    const vector<Point>& texture_coords
+) : Figure(points, normals, texture_coords), points_per_patch(points_per_patch), tesselation(tesselation) {}
 
 void Bezier::generate_points() {
 

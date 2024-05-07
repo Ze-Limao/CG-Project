@@ -5,7 +5,15 @@
 
 class Cone : public Figure {
 public:
-    Cone(int radius, int height, int slices, int stacks, const std::vector<Point>& points = {});
+    Cone(
+        int radius, 
+        int height, 
+        int slices, 
+        int stacks, 
+        const std::vector<Point>& points = {},
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_coords = {}
+    );
 
     ~Cone();
 

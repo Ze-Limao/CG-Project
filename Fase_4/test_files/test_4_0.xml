@@ -27,7 +27,7 @@
 				<scale x="0.5" y="0.5" z="0.5" />
 			</transform>
 			<models> 
-				<model file="bezier_10.3d" /> <!-- generator patch teapot.patch 10 bezier_10.3d -->
+				<!-- <model file="bezier_10.3d" /> generator patch teapot.patch 10 bezier_10.3d -->
 				<model file="box_2_3.3d" > <!-- generator box 2 3 box_2_3.3d -->
 					<color>
 						<diffuse R="200" G="200" B="000" />

@@ -6,7 +6,14 @@
 
 class Ring : public Figure {
 public:
-    Ring(int iRadius, int eRadius, int slices, const std::vector<Point>& points = {});
+    Ring(
+        int iRadius, 
+        int eRadius, 
+        int slices, 
+        const std::vector<Point>& points = {}, 
+        const std::vector<Point>& normals = {}, 
+        const std::vector<Point>& texture_coords = {}
+    );
 
     ~Ring();
 

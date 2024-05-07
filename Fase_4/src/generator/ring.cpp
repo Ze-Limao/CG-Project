@@ -1,6 +1,14 @@
 #include "ring.hpp"
 
-Ring::Ring(int iRadius, int eRadius, int slices, const std::vector<Point>& points) : iRadius(iRadius), eRadius(eRadius), slices(slices), Figure(points) {}
+Ring::Ring(
+    int iRadius, 
+    int eRadius, 
+    int slices, 
+    const std::vector<Point>& points, 
+    const std::vector<Point>& normals, 
+    const std::vector<Point>& texture_coords
+) : iRadius(iRadius), eRadius(eRadius), slices(slices), Figure(points, normals, texture_coords) {}
+
 Ring::~Ring() {}
 
 void Ring::generate_points() {
