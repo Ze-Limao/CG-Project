@@ -9,7 +9,13 @@ Point Point::invertX() { return Point(-1 * x, y, z); }
 Point Point::invertY() { return Point(x, -1 * y, z); }
 Point Point::invertZ() { return Point(x, y, -1 * z); }
 
-Point Point::surface_point(float u, float v, vector<Point> patch) {
+static void fcross(const float* a, const float* b, float* res) {
+	res[0] = a[1] * b[2] - a[2] * b[1];
+	res[1] = a[2] * b[0] - a[0] * b[2];
+	res[2] = a[0] * b[1] - a[1] * b[0];
+}
+
+std::tuple<Point, Point, Point> Point::surface_point(float u, float v, vector<Point> patch) {
 	float M[16] = {
 		-1.0f,  3.0f, -3.0f, 1.0f,
 		 3.0f, -6.0f,  3.0f, 0.0f,
@@ -19,8 +25,14 @@ Point Point::surface_point(float u, float v, vector<Point> patch) {
 
 
 	float U[4] = { u * u * u,u * u,u,1.0f }, V[4] = { v * v * v,v * v,v,1.0f };
+	float DER_U[4] = { 3.0f * u * u, 2.0f * u, 1.0f, 0.0f };
+	float DER_V[4] = { 3.0f * v * v, 2.0f * v, 1.0f, 0.0f };
+
 	float UM[4]; multiply_matrices(1, 4, U, 4, 4, M, UM); // UM: 1x4
 	float MV[4]; multiply_matrices(4, 4, M, 4, 1, V, MV); // MV: 4x1
+
+	float DuM[4]; multiply_matrices(1, 4, DER_U, 4, 4, M, DuM); // DuM: 1x4, U' x M
+	float MDv[4]; multiply_matrices(4, 4, M, 4, 1, DER_V, MDv); // MDv: 4x1, M x V' 
 
 	float P[3][16] = {
 		{
@@ -51,7 +63,26 @@ Point Point::surface_point(float u, float v, vector<Point> patch) {
 		multiply_matrices(1, 4, UMP, 4, 1, MV, &res[i]);
 	}
 
-	return Point(res[0], res[1], res[2]);
+	float Du[3]; // derivada parcial u
+	float Dv[3]; // derivada parcial v
+
+	for (int i = 0; i < 3; i++) {
+		float DuMP[4]; // DuMP: 1x4
+		multiply_matrices(1, 4, DuM, 4, 4, P[i], DuMP); // U' x M x P
+		multiply_matrices(1, 4, DuMP, 4, 1, MV, Du + i); // U' x M x P x M x V
+		float UMP[4]; // UMP: 1x4 
+		multiply_matrices(1, 4, UM, 4, 4, P[i], UMP); // U x M x P
+		multiply_matrices(1, 4, UMP, 4, 1, MDv, Dv + i); // U x M x P x M x V'
+	}
+
+	float normal[3];
+	fcross(Dv, Du, normal);
+
+	return std::make_tuple(
+		Point(res[0], res[1], res[2]), // point
+		Point(normal[0], normal[1], normal[2]), // normal
+		Point(1 - v, 1 - u, 0.0f) // texture coord
+	);
 }
 
 Point Point::new_sph_point(float a, float b, float radius) {

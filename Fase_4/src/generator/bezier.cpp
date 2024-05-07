@@ -18,17 +18,17 @@ void Bezier::generate_points() {
         for (int i = 0; i < this->tesselation; i++, u += delta) {
             for (int j = 0; j < this->tesselation; j++, v += delta) {
 
-                Point a = Point::surface_point(u, v, patch);
-                Point b = Point::surface_point(u, v + delta, patch);
-                Point c = Point::surface_point(u + delta, v, patch);
-                Point d = Point::surface_point(u + delta, v + delta, patch);
+                auto a = Point::surface_point(u, v, patch);
+                auto b = Point::surface_point(u, v + delta, patch);
+                auto c = Point::surface_point(u + delta, v, patch);
+                auto d = Point::surface_point(u + delta, v + delta, patch);
 
-                this->points.push_back(c);
-                this->points.push_back(a);
-                this->points.push_back(b);
-                this->points.push_back(b);
-                this->points.push_back(d);
-                this->points.push_back(c);
+                add_point_full(std::get<0>(c), std::get<1>(c));
+                add_point_full(std::get<0>(a), std::get<1>(a));
+                add_point_full(std::get<0>(b), std::get<1>(b));
+                add_point_full(std::get<0>(b), std::get<1>(b));
+                add_point_full(std::get<0>(d), std::get<1>(d));
+                add_point_full(std::get<0>(c), std::get<1>(c));
             }
             v = 0.0f;
         }

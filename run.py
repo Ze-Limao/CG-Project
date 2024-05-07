@@ -32,6 +32,7 @@ test_info = {
     },
     4: {
          0: [
+             'patch 10 ../patches/teapot.patch bezier_10.3d',
              'box 2 3 box_2_3.3d', 
              'plane 2 3 plane_2_3.3d', 
              'cone 1 2 4 3 cone_1_2_4_3.3d',
