@@ -23,7 +23,6 @@ std::tuple<Point, Point, Point> Point::surface_point(float u, float v, vector<Po
 		 1.0f,  0.0f,  0.0f, 0.0f
 	};
 
-
 	float U[4] = { u * u * u,u * u,u,1.0f }, V[4] = { v * v * v,v * v,v,1.0f };
 	float DER_U[4] = { 3.0f * u * u, 2.0f * u, 1.0f, 0.0f };
 	float DER_V[4] = { 3.0f * v * v, 2.0f * v, 1.0f, 0.0f };
@@ -90,6 +89,13 @@ Point Point::new_sph_point(float a, float b, float radius) {
 	float y = radius * sinf(b);
 	float z = radius * cosf(b) * cosf(a);
 
+	return Point(x, y, z);
+}
+
+Point Point::new_sph_point2(float* center, float a, float radius) {
+	float x = radius * cos(a) + center[0];
+	float y = radius * sin(a) + center[0];
+	float z = 0.0f;
 	return Point(x, y, z);
 }
 

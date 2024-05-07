@@ -1,4 +1,5 @@
 #include "sphere.hpp"
+#include <iostream>
 
 Sphere::Sphere(
     int radius,
@@ -62,20 +63,41 @@ void Sphere::generate_points() {
             Point p3_normal = Point::normalize2(p3);
             Point p4_normal = Point::normalize2(p4);
 
+            Point t_p1 = Point(
+                static_cast<float>(i) / stacks, 
+                static_cast<float>(j) / slices,
+                0.0f
+            );
+            Point t_p2 = Point(
+                static_cast<float>(i+1) / stacks, 
+                static_cast<float>(j) / slices, 
+                0.0f
+            );
+            Point t_p3 = Point(
+                static_cast<float>(i+1) / stacks, 
+                static_cast<float>(j+1) / slices,
+                0.0f
+            );
+            Point t_p4 = Point(
+                static_cast<float>(i) / stacks, 
+                static_cast<float>(j+1) / slices,
+                0.0f
+            );
+            
             // criar uma "fila" de triangulos com a forma de um paralelogramo:
 
             // primeiro triangulo
             if (i != stacks - 1) {
-                add_point_full(p1, p1_normal);
-                add_point_full(p2, p2_normal);
-                add_point_full(p3, p3_normal);
+                add_point_full(p1, p1_normal, t_p1);
+                add_point_full(p2, p2_normal, t_p2);
+                add_point_full(p3, p3_normal, t_p3);
             }
 
             // segundo triangulo
             if (i != 0) {
-                add_point_full(p3, p3_normal);
-                add_point_full(p4, p4_normal);
-                add_point_full(p1, p1_normal);
+                add_point_full(p3, p3_normal, t_p3);
+                add_point_full(p4, p4_normal, t_p4);
+                add_point_full(p1, p1_normal, t_p1);
             }
 
         }

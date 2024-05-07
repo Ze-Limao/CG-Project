@@ -21,22 +21,29 @@ void Ring::generate_points() {
     Point top_normal = Point(0.0f, 1.0f, 0.0f);
     Point bottom_normal = Point(0.0f, -1.0f, 0.0f);
 
-    for (int i = 0; i < slices; i++, a += delta) {
-            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), top_normal);
-            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal);
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal);
+    float texture_delta = 1.0f / slices;
+    float s = 0;
 
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal);
-            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal);
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), top_normal);
+    for (int i = 0; i < slices; i++, a += delta, s += delta) {
 
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal);
-            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal);
-            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), bottom_normal);
+            // top
+            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), top_normal, Point(s, 0.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal, Point(s, 1.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal, Point(s + texture_delta, 0.0f, 0.0f));
 
-            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal);
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal);
-            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), bottom_normal);
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal, Point(s + texture_delta, 0.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal, Point(s, 1.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), top_normal, Point(s + texture_delta, 1.0f, 0.0f));
+
+            // bottom
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal, Point(s + texture_delta, 1.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal, Point(s, 1.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), bottom_normal, Point(s, 0.0f, 0.0f));
+
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal, Point(s, 1.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal, Point(s + texture_delta, 0.0f, 0.0f));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), bottom_normal, Point(s + texture_delta, 1.0f, 0.0f));
+
     }
 }
 
