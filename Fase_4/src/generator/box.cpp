@@ -17,6 +17,7 @@ void Box::generate_points() {
     float dimension2 = static_cast<float>(length) / 2;
     float div_side = static_cast<float>(length) / grid;
 
+    Point normal = Point(0.0f, -1.0f, 0.0f);
     // Bottom face (reversed plane)
     for (int line = 0; line < grid; line++) {
         float z1 = -dimension2 + line * div_side;
@@ -31,18 +32,19 @@ void Box::generate_points() {
             // 2 -- 4
 
             // First triangle
-            add_point(Point(x1, -dimension2, z1)); // 1
-            add_point(Point(x2, -dimension2, z1)); // 3
-            add_point(Point(x2, -dimension2, z2)); // 2
+            add_point_full(Point(x1, -dimension2, z1), normal); // 1
+            add_point_full(Point(x2, -dimension2, z1), normal); // 3
+            add_point_full(Point(x2, -dimension2, z2), normal); // 2
 
             // Second triangle
-            add_point(Point(x2, -dimension2, z2)); // 3
-            add_point(Point(x1, -dimension2, z2)); // 4
-            add_point(Point(x1, -dimension2, z1)); // 2
+            add_point_full(Point(x2, -dimension2, z2), normal); // 3
+            add_point_full(Point(x1, -dimension2, z2), normal); // 4
+            add_point_full(Point(x1, -dimension2, z1), normal); // 2
 
         }
     }
 
+    normal = Point(0.0f, 1.0f, 0.0f);
     // Top face (normal plane)
     for (int line = 0; line < grid; line++) {
         float z1 = -dimension2 + line * div_side;
@@ -57,17 +59,18 @@ void Box::generate_points() {
             // 2 -- 4
 
             // First triangle
-            add_point(Point(x1, dimension2, z1)); // 1
-            add_point(Point(x1, dimension2, z2)); // 2
-            add_point(Point(x2, dimension2, z2)); // 4
+            add_point_full(Point(x1, dimension2, z1), normal); // 1
+            add_point_full(Point(x1, dimension2, z2), normal); // 2
+            add_point_full(Point(x2, dimension2, z2), normal); // 4
 
             // Second triangle
-            add_point(Point(x2, dimension2, z2)); // 4
-            add_point(Point(x2, dimension2, z1)); // 3
-            add_point(Point(x1, dimension2, z1)); // 1
+            add_point_full(Point(x2, dimension2, z2), normal); // 4
+            add_point_full(Point(x2, dimension2, z1), normal); // 3
+            add_point_full(Point(x1, dimension2, z1), normal); // 1
         }
     }
 
+    normal = Point(0.0f, 0.0f, 1.0f);
     // Front face
     for (int line = 0; line < grid; line++) {
         float x1 = -dimension2  + line * div_side;
@@ -77,17 +80,18 @@ void Box::generate_points() {
             float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x1, y1, dimension2));
-            add_point(Point(x2, y1, dimension2));
-            add_point(Point(x1, y2, dimension2));
+            add_point_full(Point(x1, y1, dimension2), normal);
+            add_point_full(Point(x2, y1, dimension2), normal);
+            add_point_full(Point(x1, y2, dimension2), normal);
 
             // Triangle 2
-            add_point(Point(x2, y2, dimension2));
-            add_point(Point(x1, y2, dimension2));
-            add_point(Point(x2, y1, dimension2));
+            add_point_full(Point(x2, y2, dimension2), normal);
+            add_point_full(Point(x1, y2, dimension2), normal);
+            add_point_full(Point(x2, y1, dimension2), normal);
         }
     }
 
+    normal = Point(0.0f, 0.0f, -1.0f);
     // Back face
     for (int line = 0; line < grid; line++) {
         float x1 = -dimension2 + line * div_side;
@@ -97,17 +101,18 @@ void Box::generate_points() {
             float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(x1, y1, -dimension2));
-            add_point(Point(x1, y2, -dimension2));
-            add_point(Point(x2, y1, -dimension2));
+            add_point_full(Point(x1, y1, -dimension2), normal);
+            add_point_full(Point(x1, y2, -dimension2), normal);
+            add_point_full(Point(x2, y1, -dimension2), normal);
 
             // Triangle 2
-            add_point(Point(x2, y1, -dimension2));
-            add_point(Point(x1, y2, -dimension2));
-            add_point(Point(x2, y2, -dimension2));
+            add_point_full(Point(x2, y1, -dimension2), normal);
+            add_point_full(Point(x1, y2, -dimension2), normal);
+            add_point_full(Point(x2, y2, -dimension2), normal);
         }
     }
 
+    normal = Point(-1.0f, 0.0f, 0.0f);
     // Left face
     for (int line = 0; line < grid; line++) {
         float z1 = -dimension2 + line * div_side;
@@ -117,17 +122,18 @@ void Box::generate_points() {
             float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(-dimension2, z1, y1));
-            add_point(Point(-dimension2, z2, y2));
-            add_point(Point(-dimension2, z2, y1));
+            add_point_full(Point(-dimension2, z1, y1), normal);
+            add_point_full(Point(-dimension2, z2, y2), normal);
+            add_point_full(Point(-dimension2, z2, y1), normal);
 
             // Triangle 2
-            add_point(Point(-dimension2, z2, y2));
-            add_point(Point(-dimension2, z1, y1));
-            add_point(Point(-dimension2, z1, y2));
+            add_point_full(Point(-dimension2, z2, y2), normal);
+            add_point_full(Point(-dimension2, z1, y1), normal);
+            add_point_full(Point(-dimension2, z1, y2), normal);
         }
     }
 
+    normal = Point(1.0f, 0.0f, 0.0f);
     // Right face
     for (int line = 0; line < grid; line++) {
         float z1 = -dimension2  + line * div_side;
@@ -137,15 +143,15 @@ void Box::generate_points() {
             float y2 = y1 + div_side;
 
             // Triangle 1
-            add_point(Point(dimension2, z1, y1));
-            add_point(Point(dimension2, z2, y1));
-            add_point(Point(dimension2, z2, y2));
+            add_point_full(Point(dimension2, z1, y1), normal);
+            add_point_full(Point(dimension2, z2, y1), normal);
+            add_point_full(Point(dimension2, z2, y2), normal);
 
 
             // Triangle 2
-            add_point(Point(dimension2, z2, y2));
-            add_point(Point(dimension2, z1, y2));
-            add_point(Point(dimension2, z1, y1));
+            add_point_full(Point(dimension2, z2, y2), normal);
+            add_point_full(Point(dimension2, z1, y2), normal);
+            add_point_full(Point(dimension2, z1, y1), normal);
         }
     }
 }

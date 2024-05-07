@@ -57,20 +57,25 @@ void Sphere::generate_points() {
             Point p3 = Point(xy_next * sinf(theta_next), y_next, xy_next * cosf(theta_next) ); // phi e theta movem
             Point p4 = Point(xy      * sinf(theta_next), y,      xy      * cosf(theta_next) ); // theta move
 
+            Point p1_normal = Point::normalize2(p1);
+            Point p2_normal = Point::normalize2(p2);
+            Point p3_normal = Point::normalize2(p3);
+            Point p4_normal = Point::normalize2(p4);
+
             // criar uma "fila" de triangulos com a forma de um paralelogramo:
 
             // primeiro triangulo
             if (i != stacks - 1) {
-                add_point(p1);
-                add_point(p2);
-                add_point(p3);
+                add_point_full(p1, p1_normal);
+                add_point_full(p2, p2_normal);
+                add_point_full(p3, p3_normal);
             }
 
             // segundo triangulo
             if (i != 0) {
-                add_point(p3);
-                add_point(p4);
-                add_point(p1);
+                add_point_full(p3, p3_normal);
+                add_point_full(p4, p4_normal);
+                add_point_full(p1, p1_normal);
             }
 
         }

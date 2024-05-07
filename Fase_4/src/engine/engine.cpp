@@ -9,6 +9,7 @@
 
 #include "math.h"
 #include <iostream>
+#include <cctype>
 
 #include "../utils/figure.hpp"
 #include "config.hpp"
@@ -147,6 +148,9 @@ void drawCatmullRomCurve(vector<Point> controlPoints) {
 	glEnd();
 }
 
+Point* pos = new Point();
+Point* deriv = new Point();
+
 void drawGroups(Group* group, int *index) {
 	if (group) {
 		glPushMatrix();
@@ -174,8 +178,6 @@ void drawGroups(Group* group, int *index) {
 			case Transform::TransformType::TRANSLATE_ANIMATION:
 				if (t->time && t->time > 0.0f) {
 
-					Point* pos = new Point(); 
-					Point* deriv = new Point();
 					get_global_catmull_rom_point(NOW / t->time, t->points, pos, deriv);
 					if (show_curves) drawCatmullRomCurve(t->points);
 					glTranslatef(pos->x, pos->y, pos->z);
@@ -185,8 +187,11 @@ void drawGroups(Group* group, int *index) {
 						Point* z = Point::cross(deriv, t->y_axis);
 						z->normalize();
 						Point* y = Point::cross(z, deriv);
-						t->y_axis = y;
 						y->normalize();
+
+						t->y_axis->x = y->x;
+						t->y_axis->y = y->y;
+						t->y_axis->z = y->y;
 
 						float rotation_matrix[16];
 						build_rotation_matrix(deriv, y, z, rotation_matrix);
@@ -194,8 +199,6 @@ void drawGroups(Group* group, int *index) {
 
 						delete z;
 						delete y;
-						delete deriv; 
-						delete pos;
 					}
 				}
 				break;
@@ -313,6 +316,11 @@ void specKeyProc(int key_code, int x, int y) {
 // Alters the camera position for debug and changes between modes (GL_FILL, GL_LINES, GL_POINT)
 void keyProc(unsigned char key, int x, int y) {
 	x = y; y = x;
+
+	if (std::isalpha(key)) {
+		key = std::tolower(key);
+	}
+
 	switch (key)
 	{
 	case 'a': { // left
@@ -402,7 +410,7 @@ int main(int argc, char* argv[]) {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(800, 800);
-	glutCreateWindow("Fase 3");
+	glutCreateWindow("Fase 4");
 
 	// Required callback registry 
 	glutDisplayFunc(renderScene);
@@ -432,6 +440,10 @@ int main(int argc, char* argv[]) {
 	glutMainLoop();
 
 	delete c;
+	delete deriv;
+	delete pos;
+	glDeleteBuffers(stored_figures.size(), buffers);
+	free(buffers);
 
 	return 1;
 }

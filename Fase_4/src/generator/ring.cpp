@@ -18,23 +18,25 @@ void Ring::generate_points() {
     float f_iRadius = static_cast<float>(iRadius);
     float f_eRadius = static_cast<float>(eRadius);
 
+    Point top_normal = Point(0.0f, 1.0f, 0.0f);
+    Point bottom_normal = Point(0.0f, -1.0f, 0.0f);
 
     for (int i = 0; i < slices; i++, a += delta) {
-            add_point(Point::new_sph_point(a, 0.0f, f_iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), top_normal);
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal);
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal);
 
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_eRadius));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), top_normal);
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), top_normal);
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), top_normal);
 
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
-            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
-            add_point(Point::new_sph_point(a, 0.0f, f_iRadius));
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal);
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal);
+            add_point_full(Point::new_sph_point(a, 0.0f, f_iRadius), bottom_normal);
 
-            add_point(Point::new_sph_point(a, 0.0f, f_eRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_iRadius));
-            add_point(Point::new_sph_point(a + delta, 0.0f, f_eRadius));
+            add_point_full(Point::new_sph_point(a, 0.0f, f_eRadius), bottom_normal);
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_iRadius), bottom_normal);
+            add_point_full(Point::new_sph_point(a + delta, 0.0f, f_eRadius), bottom_normal);
     }
 }
 

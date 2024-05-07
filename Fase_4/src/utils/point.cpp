@@ -69,11 +69,36 @@ void Point::normalize() {
 	this->z = this->z / l;
 }
 
+Point Point::normalize2(Point p) {
+	float l = sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
+	return Point(
+		p.x / l,
+		p.y / l,
+		p.z / l
+	);
+}
+
+Point Point::vector_from_two_points(Point a, Point b) {
+	Point res;
+	res.x = b.x - a.x;
+	res.y = b.y - a.y;
+	res.z = b.z - a.z;
+	return res;
+}
+
 Point* Point::cross(Point* a, Point* b) {
 	return new Point(
 		a->y * b->z - a->z * b->y,
 		a->z * b->x - a->x * b->z,
 		a->x * b->y - a->y * b->x
+	);
+}
+
+Point Point::cross2(Point a, Point b) {
+	return Point(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
 	);
 }
 

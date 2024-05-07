@@ -39,5 +39,31 @@
 				</model>
 			</models>
 		</group>
+		<group>
+			<transform> 
+				<scale x="1.5" y="1.5" z="1.5" />
+			</transform>
+			<models>
+				<model file="cone_1_2_4_3.3d"></model>
+			</models>
+		</group>
  	</group>
+	<group>
+		<transform> 
+			<translate x="0" y="-2" z="0" />
+			<scale x="5" y="5" z="5" />
+		</transform>
+		<models>
+			<model file="plane_2_3.3d"></model>
+		</models>
+	</group>
+	<group>
+		<transform> 
+			<translate x="0" y="-4" z="0" />
+		</transform>
+		<models>
+			<model file="ring_3_4_20.3d"></model>
+			<model file="sphere_1_20_20.3d"></model>
+		</models>
+	</group>
 </world>

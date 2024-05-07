@@ -21,9 +21,12 @@ public:
     Point invertZ();
     void normalize();
 
+    static Point vector_from_two_points(Point a, Point b);
     static Point surface_point(float u, float v, vector<Point> patch);
     static Point new_sph_point(float a, float b, float radius);
     static Point* cross(Point* a, Point* b);
+    static Point cross2(Point a, Point b);
+    static Point normalize2(Point p);
 };
 
 #endif // POINT_HPP
