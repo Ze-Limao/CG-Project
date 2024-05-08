@@ -10,7 +10,6 @@ constexpr float PI = 3.14159265358979323846f;
 
 class Figure {
 public:
-    Figure();
     Figure(
         const std::vector<Point>& points = {},
         const std::vector<Point>& normals = {}, 
@@ -23,14 +22,26 @@ public:
     std::vector<Point> texture_coords;
 
     std::string texture_file;
-    vector<float> diffuse  = { 200.0f, 200.0f, 200.0f};
-    vector<float> ambient  = { 50.0f, 50.0f, 50.f };
-    vector<float> specular = { 0.0f, 0.0f, 0.0f };
-    vector<float> emissive = { 0.0f, 0.0f, 0.0f };
-    float shininess = 0;
 
     std::string to_string() const;
     vector<float> to_vector();
+    vector<float> get_normals_vector();
+    vector<float> get_texture_coords_vector();
+
+    vector<float> get_diffuse();
+    void set_diffuse(float r, float g, float b);
+
+    vector<float> get_ambient();
+    void set_ambient(float r, float g, float b);
+
+    vector<float> get_specular();
+    void set_specular(float r, float g, float b);
+
+    vector<float> get_emissive();
+    void set_emissive(float r, float g, float b);
+
+    float get_shininess();
+    void set_shininess(float shininess);
 
     enum FigureType { FIGURE = 0, BOX = 1, CONE = 2, PLANE = 3, SPHERE = 4, RING = 5, BEZIER = 6 };
 
@@ -42,7 +53,15 @@ public:
     static Figure* from_file(const std::string& path);
     
     virtual void generate_points() = 0;    
-    virtual FigureType get_type() { return FigureType::FIGURE; }
+    virtual FigureType get_type() { return FigureType::FIGURE; };
+    virtual std::string get_type_as_string() { return "FIGURE"; };
+
+private:
+    vector<float>* diffuse;
+    vector<float>* ambient;
+    vector<float>* specular;
+    vector<float>* emissive;
+    float shininess;
 };
 
 #endif // FIGURE_HPP

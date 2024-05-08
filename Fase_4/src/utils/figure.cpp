@@ -14,21 +14,36 @@
 #include "../generator/ring.hpp"
 #include "../generator/bezier.hpp"
 
-Figure::Figure() {}
 Figure::Figure(
     const std::vector<Point>& points, 
     const std::vector<Point>& normals, 
     const std::vector<Point>& texture_coords
-) : points(points), normals(normals), texture_coords(texture_coords) {}
+) : points(points), normals(normals), texture_coords(texture_coords) {
+
+    this->diffuse = new vector<float>();
+    this->ambient = new vector<float>();
+    this->specular = new vector<float>();
+    this->emissive = new vector<float>();
+
+    this->diffuse->push_back(200.0f); this->diffuse->push_back(200.0f); this->diffuse->push_back(200.0f); this->diffuse->push_back(1.0f);
+    this->ambient->push_back(50.0f);  this->ambient->push_back(50.0f);  this->ambient->push_back(50.0f);  this->ambient->push_back(1.0f);
+    this->specular->push_back(0.0f);  this->specular->push_back(0.0f);  this->specular->push_back(0.0f);  this->specular->push_back(1.0f);
+    this->emissive->push_back(0.0f);  this->emissive->push_back(0.0f);  this->emissive->push_back(0.0f);  this->emissive->push_back(1.0f);
+    this->shininess = 0.0f;
+}
 
 Figure::~Figure() { 
     points.clear(); 
     normals.clear();
     texture_coords.clear();
-    diffuse.clear();
-    ambient.clear();
-    specular.clear();
-    emissive.clear();
+    diffuse->clear();
+    ambient->clear();
+    specular->clear();
+    emissive->clear();
+    delete diffuse;
+    delete ambient;
+    delete specular;
+    delete emissive;
 }
 
 // fase 1, 2 e 3
@@ -59,13 +74,6 @@ void Figure::to_file(const std::string& path, const std::vector<int>& args, Figu
         std::cerr << "Could not open file '" << path << "'\n";
         return;
     }
-
-    file << texture_file << '\n';
-    file << diffuse.at(0)  << ';' << diffuse.at(1)  << ';' << diffuse.at(2)  << '\n';
-    file << ambient.at(0)  << ';' << ambient.at(1)  << ';' << ambient.at(2)  << '\n';
-    file << specular.at(0) << ';' << specular.at(1) << ';' << specular.at(2) << '\n';
-    file << emissive.at(0) << ';' << emissive.at(1) << ';' << emissive.at(2) << '\n';
-    file << shininess << '\n';
 
     file << static_cast<int>(type) << ';' << points.size();
     for (const auto& arg : args) { file << ';' << arg;  }
@@ -101,28 +109,6 @@ Figure* Figure::from_file(const std::string& path) {
     }
 
     std::string line;
-
-    std::getline(file, line);
-    std::string texture_file = line;
-
-    std::getline(file, line); // Diffuse
-    std::vector<std::string> diffuse_str = split(line, ';');
-    vector<float> diffuse = { std::stof(diffuse_str[0]), std::stof(diffuse_str[1]), std::stof(diffuse_str[2]) };
-
-    std::getline(file, line); // Ambient
-    std::vector<std::string> ambient_str = split(line, ';');
-    vector<float>  ambient = { std::stof(ambient_str[0]), std::stof(ambient_str[1]), std::stof(ambient_str[2]) };
-
-    std::getline(file, line); // Specular
-    std::vector<std::string> specular_str = split(line, ';');
-    vector<float> specular = { std::stof(specular_str[0]), std::stof(specular_str[1]), std::stof(specular_str[2]) };
-
-    std::getline(file, line); // Emissive
-    std::vector<std::string> emissive_str = split(line, ';');
-    vector<float> emissive = { std::stof(emissive_str[0]), std::stof(emissive_str[1]), std::stof(emissive_str[2]) };
-
-    std::getline(file, line); // Shininess
-    float shininess = std::stof(line);
 
     std::getline(file, line);
     std::vector<std::string> first_line = split(line, ';');
@@ -167,13 +153,6 @@ Figure* Figure::from_file(const std::string& path) {
         return nullptr;
     }
 
-    instance->texture_file = texture_file;
-    instance->ambient = ambient;
-    instance->diffuse = diffuse;
-    instance->specular = specular;
-    instance->emissive = emissive;
-    instance->shininess = shininess;
-
     return instance;
 }
 
@@ -187,17 +166,109 @@ vector<float> Figure::to_vector() {
     return result;
 }
 
+vector<float> Figure::get_normals_vector() {
+    vector<float> result;
+    for (Point p : this->normals) {
+        result.push_back(p.x);
+        result.push_back(p.y);
+        result.push_back(p.z);
+    }
+    return result;
+}
+
+vector<float> Figure::get_texture_coords_vector() {
+    vector<float> result;
+    for (Point p : this->texture_coords) {
+        result.push_back(p.x);
+        result.push_back(p.y);
+    }
+    return result;
+}
+
+void Figure::set_diffuse(float r, float g, float b) {
+    float* aux = this->diffuse->data();
+    aux[0] = r;
+    aux[1] = g;
+    aux[2] = b;
+}
+
+vector<float> Figure::get_diffuse() {
+    vector<float> result;
+    result.push_back(this->diffuse->at(0) / 255.0f);
+    result.push_back(this->diffuse->at(1) / 255.0f);
+    result.push_back(this->diffuse->at(2) / 255.0f);
+    result.push_back(this->diffuse->at(3) / 255.0f);
+    return result;
+}
+
+void Figure::set_ambient(float r, float g, float b) {
+    float* aux = this->ambient->data();
+    aux[0] = r;
+    aux[1] = g;
+    aux[2] = b;
+}
+
+vector<float> Figure::get_ambient() {
+    vector<float> result;
+    result.push_back(this->ambient->at(0) / 255.0f);
+    result.push_back(this->ambient->at(1) / 255.0f);
+    result.push_back(this->ambient->at(2) / 255.0f);
+    result.push_back(this->ambient->at(3) / 255.0f);
+    return result;
+}
+
+void Figure::set_specular(float r, float g, float b) {
+    float* aux = this->specular->data();
+    aux[0] = r;
+    aux[1] = g;
+    aux[2] = b;
+}
+
+vector<float> Figure::get_specular() {
+    vector<float> result;
+    result.push_back(this->specular->at(0) / 255.0f);
+    result.push_back(this->specular->at(1) / 255.0f);
+    result.push_back(this->specular->at(2) / 255.0f);
+    result.push_back(this->specular->at(3) / 255.0f);
+    return result;
+}
+
+
+void Figure::set_emissive(float r, float g, float b) {
+    float* aux = this->emissive->data();
+    aux[0] = r;
+    aux[1] = g;
+    aux[2] = b;
+}
+
+vector<float> Figure::get_emissive() {
+    vector<float> result;
+    result.push_back(this->emissive->at(0) / 255.0f);
+    result.push_back(this->emissive->at(1) / 255.0f);
+    result.push_back(this->emissive->at(2) / 255.0f);
+    result.push_back(this->emissive->at(3) / 255.0f);
+    return result;
+}
+
+void Figure::set_shininess(float shininess) {
+    this->shininess = shininess;
+}
+
+float Figure::get_shininess() {
+    return this->shininess;
+}
+
 std::string Figure::to_string() const {
     std::stringstream ss;
 
     ss << "Texture file: " << texture_file << '\n';
-    ss << "Diffuse: " << diffuse[0] << ", " << diffuse[1] << ", " << diffuse[2] << '\n';
-    ss << "Ambient: " << ambient[0] << ", " << ambient[1] << ", " << ambient[2] << '\n';
-    ss << "Specular: " << specular[0] << ", " << specular[1] << ", " << specular[2] << '\n';
-    ss << "Emissive: " << emissive[0] << ", " << emissive[1] << ", " << emissive[2] << '\n';
+    ss << "Diffuse: " << diffuse->at(0) << ", " << diffuse->at(1) << ", " << diffuse->at(2) << '\n';
+    ss << "Ambient: " << ambient->at(0) << ", " << ambient->at(1) << ", " << ambient->at(2) << '\n';
+    ss << "Specular: " << specular->at(0) << ", " << specular->at(1) << ", " << specular->at(2) << '\n';
+    ss << "Emissive: " << emissive->at(0) << ", " << emissive->at(1) << ", " << emissive->at(2) << '\n';
     ss << "Shininess: " << shininess << '\n';
 
-    ss << "Points " << "(" << points.size() << "):" << '\n';
+    /*ss << "Points " << "(" << points.size() << "):" << '\n';
     for (const auto& point : points) {
         ss << "  (" << point.x << ", " << point.y << ", " << point.z << ")\n";
     }
@@ -210,7 +281,7 @@ std::string Figure::to_string() const {
     ss << "Texture Coordinates " << "(" << texture_coords.size() << "):" << '\n';
     for (const auto& texture_coord : texture_coords) {
         ss << "  (" << texture_coord.x << ", " << texture_coord.y << ", " << texture_coord.z << ")\n";
-    }
+    }*/
 
     return ss.str();
 }

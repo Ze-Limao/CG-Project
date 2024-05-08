@@ -79,7 +79,8 @@ Config::Config(const char* file_path) {
                     float dirX = static_cast<float>(atof(light->Attribute("dirx")));
                     float dirY = static_cast<float>(atof(light->Attribute("diry")));
                     float dirZ = static_cast<float>(atof(light->Attribute("dirz")));
-                    vector<float> direction = { dirX, dirY, dirZ };
+                    float l = sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+                    vector<float> direction = { dirX / l, dirY / l, dirZ / l };
                     this->lights.push_back(std::make_unique<DirectionalLight>(direction));
 
                 }
@@ -195,7 +196,64 @@ Group* Config::parse_groups(tinyxml2::XMLElement* xml_group) {
         tinyxml2::XMLElement* xml_models = xml_group->FirstChildElement("models");
         if (xml_models) {
             for (tinyxml2::XMLElement* m = xml_models->FirstChildElement("model"); m; m = m->NextSiblingElement()) {
-                group->models.push_back((m->Attribute("file")));
+
+                std::string model_file = m->Attribute("file");
+                if (model_file.empty()) continue;
+
+                std::string texture_file;
+                tinyxml2::XMLElement* model_texture = m->FirstChildElement("texture");
+
+                if (model_texture) {
+                    texture_file = model_texture->Attribute("file");
+                }
+                
+                float shininess = 0;
+                float color_settings[4][3] = {
+                    {200, 200, 200},
+                    {50, 50, 50},
+                    {0, 0, 0},
+                    {0, 0, 0}
+                };
+                tinyxml2::XMLElement* model_color = m->FirstChildElement("color");
+
+                if (model_color) {
+
+                    tinyxml2::XMLElement* diffuse = model_color->FirstChildElement("diffuse");
+                    if (diffuse) {
+                        color_settings[0][0] = static_cast<float>(atof(diffuse->Attribute("R")));
+                        color_settings[0][1] = static_cast<float>(atof(diffuse->Attribute("G")));
+                        color_settings[0][2] = static_cast<float>(atof(diffuse->Attribute("B")));
+                    }
+
+                    tinyxml2::XMLElement* ambient = model_color->FirstChildElement("ambient");
+                    if (ambient) {
+                        color_settings[1][0] = static_cast<float>(atof(ambient->Attribute("R")));
+                        color_settings[1][1] = static_cast<float>(atof(ambient->Attribute("G")));
+                        color_settings[1][2] = static_cast<float>(atof(ambient->Attribute("B")));
+                    }
+
+                    tinyxml2::XMLElement* specular = model_color->FirstChildElement("specular");
+                    if (specular) {
+                        color_settings[2][0] = static_cast<float>(atof(specular->Attribute("R")));
+                        color_settings[2][1] = static_cast<float>(atof(specular->Attribute("G")));
+                        color_settings[2][2] = static_cast<float>(atof(specular->Attribute("B")));
+                    }
+                    
+
+                    tinyxml2::XMLElement* emissive = model_color->FirstChildElement("emissive");
+                    if (emissive) {
+                        color_settings[3][0] = static_cast<float>(atof(emissive->Attribute("R")));
+                        color_settings[3][1] = static_cast<float>(atof(emissive->Attribute("G")));
+                        color_settings[3][2] = static_cast<float>(atof(emissive->Attribute("B")));
+                    }
+
+                    tinyxml2::XMLElement* xml_shininess = model_color->FirstChildElement("shininess");
+                    if (xml_shininess)
+                        shininess = static_cast<float>(atof(xml_shininess->Attribute("value")));
+                }
+
+                ModelInfo* model_info = new ModelInfo(model_file, texture_file, color_settings, shininess);
+                group->models.push_back(model_info);
             }
         }
 

@@ -23,7 +23,7 @@ void Cone::generate_points() {
     std::vector<Point> temp_normals(slices);
 
     Point origin = Point(0.0f, 0.0f, 0.0f);
-    Point apex = Point(0.0f, height, 0.0f);
+    Point apex = Point(0.0f, static_cast<float>(height), 0.0f);
 
     Point normal = Point(0.0f, -1.0f, 0.0f);
 

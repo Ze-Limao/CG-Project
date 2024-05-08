@@ -28,17 +28,17 @@ test_info = {
         2: ['patch 10 ../patches/teapot.patch bezier_10.3d'],
         3: ['patch 10 ../patches/teapot.patch bezier_10.3d'], # teapot without new rotate or translate type
         4: ['sphere 1 8 8 sphere_1_8_8.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d'],  # fase 2 test (to confirm that normal rotate and translate still works)
-        5: ['patch 10 ../patches/teapot.patch bezier_10.3d sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
+        5: ['patch 10 ../patches/teapot.patch bezier_10.3d', 'sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
     },
     4: {
-         0: [
-             'patch 10 ../patches/teapot.patch bezier_10.3d',
-             'box 2 3 box_2_3.3d', 
-             'plane 2 3 plane_2_3.3d', 
-             'cone 1 2 4 3 cone_1_2_4_3.3d',
-             'sphere 2 20 20 sphere_1_20_20.3d',
-             'ring 3 4 20 ring_3_4_20.3d'
-             ], # teste da fase anterior
+         0: ['patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d', 'plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 10 10 sphere_2_10_10.3d', 'ring 3 4 20 ring_3_4_20.3d'], # teste da fase anterior
+         1: ['box 2 3 box_2_3.3d'],
+         2: ['box 2 3 box_2_3.3d'],
+         3: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
+         4: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
+         5: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
+         6: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
+         7: ['patch 10 ../patches/teapot.patch bezier_10.3d',  'sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
     }
 }
 

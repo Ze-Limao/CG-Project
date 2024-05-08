@@ -24,6 +24,9 @@ public:
 
     virtual void generate_points() override;
     FigureType get_type() override;
+    std::string get_type_as_string() override {
+        return "CONE";
+    };
 };
 
 #endif // CONE_HPP
