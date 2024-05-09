@@ -23,12 +23,12 @@ void Bezier::generate_points() {
                 auto c = Point::surface_point(u + delta, v, patch);
                 auto d = Point::surface_point(u + delta, v + delta, patch);
 
-                add_point_full(std::get<0>(c), std::get<1>(c));
-                add_point_full(std::get<0>(a), std::get<1>(a));
-                add_point_full(std::get<0>(b), std::get<1>(b));
-                add_point_full(std::get<0>(b), std::get<1>(b));
-                add_point_full(std::get<0>(d), std::get<1>(d));
-                add_point_full(std::get<0>(c), std::get<1>(c));
+                add_point_full(std::get<0>(c), std::get<1>(c), std::get<2>(c));
+                add_point_full(std::get<0>(a), std::get<1>(a), std::get<2>(a));
+                add_point_full(std::get<0>(b), std::get<1>(b), std::get<2>(b));
+                add_point_full(std::get<0>(b), std::get<1>(b), std::get<2>(b));
+                add_point_full(std::get<0>(d), std::get<1>(d), std::get<2>(d));
+                add_point_full(std::get<0>(c), std::get<1>(c), std::get<2>(c));
             }
             v = 0.0f;
         }

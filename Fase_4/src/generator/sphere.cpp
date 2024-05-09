@@ -50,7 +50,7 @@ void Sphere::generate_points() {
             theta_next = (j + 1) * sector_step;
 
             //  p1--p4
-            //  | \ |
+            //  | / |
             //  p2--p3
 
             Point p1 = Point(xy      * sinf(theta),      y,      xy      * cosf(theta) ); // ((r * cos(phi)) * cos(theta), r * sin(phi), (r * cos(phi)) * sin(theta))
@@ -63,45 +63,46 @@ void Sphere::generate_points() {
             Point p3_normal = Point::normalize2(p3);
             Point p4_normal = Point::normalize2(p4);
 
-            Point t_p1 = Point(
-                static_cast<float>(i) / stacks, 
+            Point t1 = Point(
                 static_cast<float>(j) / slices,
+                static_cast<float>(stacks - i) / stacks,
                 0.0f
             );
-            Point t_p2 = Point(
-                static_cast<float>(i+1) / stacks, 
-                static_cast<float>(j) / slices, 
+            Point t2 = Point(
+                static_cast<float>(j) / slices,
+                static_cast<float>(stacks - i  - 1) / stacks,
                 0.0f
             );
-            Point t_p3 = Point(
-                static_cast<float>(i+1) / stacks, 
-                static_cast<float>(j+1) / slices,
+            Point t3 = Point(
+                static_cast<float>(j + 1) / slices,
+                static_cast<float>(stacks - i - 1) / stacks,
                 0.0f
             );
-            Point t_p4 = Point(
-                static_cast<float>(i) / stacks, 
-                static_cast<float>(j+1) / slices,
+            Point t4 = Point(
+                static_cast<float>(j + 1) / slices,
+                static_cast<float>(stacks - i) / stacks,
                 0.0f
             );
             
             // criar uma "fila" de triangulos com a forma de um paralelogramo:
 
             // primeiro triangulo
-            if (i != stacks - 1) {
-                add_point_full(p1, p1_normal, t_p1);
-                add_point_full(p2, p2_normal, t_p2);
-                add_point_full(p3, p3_normal, t_p3);
+            if (i != 0) {
+                add_point_full(p1, p1_normal, t1);
+                add_point_full(p2, p2_normal, t2);
+                add_point_full(p4, p4_normal, t4);
             }
 
             // segundo triangulo
-            if (i != 0) {
-                add_point_full(p3, p3_normal, t_p3);
-                add_point_full(p4, p4_normal, t_p4);
-                add_point_full(p1, p1_normal, t_p1);
+            if (i != stacks - 1) {
+                add_point_full(p2, p2_normal, t2);
+                add_point_full(p3, p3_normal, t3);
+                add_point_full(p4, p4_normal, t4);
             }
 
         }
     }
+
 }
 
 Figure::FigureType Sphere::get_type() {

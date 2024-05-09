@@ -38,7 +38,8 @@ test_info = {
          4: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
          5: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
          6: ['plane 2 3 plane_2_3.3d', 'cone 1 2 4 3 cone_1_2_4_3.3d', 'sphere 1 8 8 sphere_1_8_8.3d', 'patch 10 ../patches/teapot.patch bezier_10.3d', 'box 2 3 box_2_3.3d'],
-         7: ['patch 10 ../patches/teapot.patch bezier_10.3d',  'sphere 1 12 12 sphere_1_12_12.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d']
+         7: ['patch 10 ../patches/teapot.patch bezier_10.3d',  'sphere 1 21 21 sphere_1_21_21.3d', 'ring 3 4 20 ring_3_4_20.3d', 'sphere 1 5 5 sphere_1_5_5.3d'],
+         8: ['sphere 1 20 20 sphere_1_20_20.3d', 'cone 1 2 10 7 cone_2_3_10_7.3d']
     }
 }
 

@@ -27,17 +27,17 @@ void Cone::generate_points() {
 
     Point normal = Point(0.0f, -1.0f, 0.0f);
 
-    float texture_radius = 0.5f;
-    float texture_center[2] = {0.5f, 0.5f};
+    float raio_tex = 0.5f;
+    float center_tex[2] = { 0.5f, 0.5f };
 
     for (int i = 0; i < slices; i++) {
         Point np = Point(radius * sinf(start), 0.0f, radius * cosf(start));
         base.insert(base.begin() + i, np);
 
-        add_point_full(np, normal);
-        add_point_full(Point(0.0f, 0.0f, 0.0f), normal);
+        add_point_full(np, normal, Point::new_sph_point2(center_tex, start, raio_tex));
+        add_point_full(Point(0.0f, 0.0f, 0.0f), normal, Point(0.5f, 0.5f, 0.0f));
         start += alpha;
-        add_point_full(Point(radius * sinf(start), 0.0f, radius * cosf(start)), normal);
+        add_point_full(Point(radius * sinf(start), 0.0f, radius * cosf(start)), normal, Point::new_sph_point2(center_tex, start, raio_tex));
 
         // normals
         Point vector_a = Point::vector_from_two_points(origin, np);
@@ -54,11 +54,11 @@ void Cone::generate_points() {
 
     float h_diff = static_cast<float>(height) / stacks;
 
-    float current_texture_alpha = 0.0f;
-    float texture_radius_delta = texture_radius / stacks;
-
     // Faces
     for (int j = 0; j < slices; j++) {
+
+        float fj = static_cast<float>(j);
+
         Point p1 = base.at(j);
         Point normal1 = temp_normals.at(j);
         int nj = j + 1;
@@ -79,33 +79,64 @@ void Cone::generate_points() {
         Point l_p1 = p1;
         Point l_p2 = p2;
 
+        Point t1, t2, t3, t4;
+
         // Para cada stack da face
         for (int i = 0; i < stacks - 1; i++) {
             // Triangulo da esquerda
             // 1
             // 1  2
-            add_point_full(l_p1, normal1, Point::new_sph_point2(texture_center, current_texture_alpha, current_texture_radius));
-            add_point_full(l_p2, normal2, Point::new_sph_point2(texture_center, current_texture_alpha + alpha, current_texture_radius));
+
+            float fi = static_cast<float>(i);
+            //float texture_step = (0.5f / slices) / stacks;
+
+            // 3  4
+            // 1  2
+            t1 = Point(
+                fj / slices, 
+                fi / stacks, 
+                0.0f
+            );
+            t2 = Point(
+                (fj + 1) / slices,
+                fi / stacks, 
+                0.0f
+            );
+            t3 = Point(
+                fj / slices, 
+                (fi + 1) / stacks, 
+                0.0f
+            );
+            t4 = Point(
+                (fj + 1) / slices,
+                (fi + 1) / stacks, 
+                0.0f
+            );
+
+            add_point_full(l_p1, normal1, t1);
+            add_point_full(l_p2, normal2, t2);
             l_p1 = Point(l_p1.x - b1x_diff, l_p1.y + h_diff, l_p1.z - b1z_diff);
-            add_point_full(l_p1, normal1, Point::new_sph_point2(texture_center, current_texture_alpha, current_texture_radius - texture_radius_delta));
+            add_point_full(l_p1, normal1, t3);
 
             // Triangulo da direita
-            //    2
             // 1  2
-            add_point_full(l_p2, normal2, Point::new_sph_point2(texture_center, current_texture_alpha + alpha, current_texture_radius));
+            //    2
+            add_point_full(l_p2, normal2, t2);
             l_p2 = Point(l_p2.x - b2x_diff, l_p2.y + h_diff, l_p2.z - b2z_diff);
-            add_point_full(l_p2, normal2, Point::new_sph_point2(texture_center, current_texture_alpha + alpha, current_texture_radius - texture_radius_delta));
-            add_point_full(l_p1, normal1, Point::new_sph_point2(texture_center, current_texture_alpha, current_texture_radius - texture_radius_delta));
-
-            current_texture_radius -= texture_radius_delta;
+            add_point_full(l_p2, normal2, t4);
+            add_point_full(l_p1, normal1, t3);
         }
 
-        // Construir triangulo do topo.
-        add_point_full(l_p1, normal1, Point::new_sph_point2(texture_center, current_texture_alpha, current_texture_radius));
-        add_point_full(l_p2, normal2, Point::new_sph_point2(texture_center, current_texture_alpha + alpha, current_texture_radius));
-        add_point_full(Point(0.0f, static_cast<float>(height), 0.0f), Point(0.0f, 1.0f, 0.0f), Point(texture_center[0], texture_center[1], 0.0f));
+        Point t5 = Point(
+            (fj + 0.5f) / slices,
+            1.0f,
+            0.0f
+        );
 
-        current_texture_alpha += alpha;
+        // Construir triangulo do topo.
+        add_point_full(l_p1, normal1, t3);
+        add_point_full(l_p2, normal2, t4);
+        add_point_full(Point(0.0f, static_cast<float>(height), 0.0f), t5);
     }
 
     base.clear();
