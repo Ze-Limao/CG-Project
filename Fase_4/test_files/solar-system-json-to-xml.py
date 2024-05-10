@@ -18,19 +18,6 @@ ORBITAL_PERIOD_SCALE = 0.01
 ROTATION_PERIOD_SCALE = 1
 
 
-def get_color_for_temperature(temperature):
-    temperature_range = [-225, 5600]
-    color_range = [(0, 0, 255), (255, 0, 0)]
-
-    normalized_temperature = (temperature - temperature_range[0]) / (temperature_range[1] - temperature_range[0])
-
-    r = int((1 - normalized_temperature) * color_range[0][0] + normalized_temperature * color_range[1][0])
-    g = int((1 - normalized_temperature) * color_range[0][1] + normalized_temperature * color_range[1][1])
-    b = int((1 - normalized_temperature) * color_range[0][2] + normalized_temperature * color_range[1][2])
-
-    return r, g, b
-
-
 def create_window(doc, world):
     window = doc.createElement("window")
     window.setAttribute("width", "512")

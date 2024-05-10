@@ -17,10 +17,8 @@
 #include "../utils/matrix.hpp"
 
 
-// Obtenção do tempo actual em segundos
 #define NOW ((1.0f*glutGet(GLUT_ELAPSED_TIME))/1000.0f)
 
-// Códigos de cores
 #define RED 1.0f,0.0f,0.0f
 #define GREEN 0.0f,1.0f,0.0f
 #define BLUE 0.0f,0.0f,1.0f
@@ -28,11 +26,9 @@
 #define CYAN 0.0f,1.0f,1.0f
 #define WHITE 1.0f,1.0f,1.0f
 
-// Modos da câmara
 #define SPHERICAL true
 #define FREE false
 
-// Variáveis da câmara
 float alpha = PI / 4;
 float beta_ = PI / 4;
 float radius = 5.0f;
@@ -55,52 +51,41 @@ float far = 0.0f;
 
 bool cameraMode;
 
-// Variáveis de visualização
 int mode = GL_FILL;
-bool show_eixos = false;
-
-// Configuração do engine
 
 Config* c;
 std::vector<Figure*> stored_figures;
 
-// VBO's
+// vbos
 // modelos
-GLuint* buffers = NULL; // temos um buffer para cada figura
-vector<unsigned int> buffersSizes; // aqui guardamos o tamanho de cada buffer de cada figura
-unsigned int figCount = 0; // total de figuras existentes no ficheiro de configuração.
-// Normais
-GLuint* buffersN = NULL; // temos um buffer para o conjunto de normais de cada figura
-vector<unsigned int> buffersNSizes; // aqui guardamos o tamanho de cada buffer de cada normal
-// Texturas
+GLuint* buffers = NULL; 
+vector<unsigned int> buffersSizes;
+unsigned int figCount = 0; 
+// normais
+GLuint* buffersN = NULL;
+vector<unsigned int> buffersNSizes; 
+// texturas
 GLuint* buffersTC = NULL;
 GLuint* textures = NULL;
 
-// Congelamento da animação
 bool freeze = false;
 int timeOld, timeNew;
 float totalTime = 0.0f;
 
-// FIM dos VBO's
-
-// Controlo de tempo
 float init_time = 0.0f;
 int timebase;
 
-// Título na janela do engine
 unsigned int frame = 0;
 char title[128];
 
-// Visualização das curvas de Catmull-Rom
 bool showCurves = false;
-
-// Visualização das normais
 bool showNormais = false;
+bool show_eixos = false;
 
 void loadTexture(const char* texturePath, int* index) {
 	FILE* file_ptr = fopen(texturePath, "r");
 	if (file_ptr == NULL) {
-		printf("Não foi possível abrir a textura com a diretoria '%s'!\n", texturePath);
+		printf("Não foi possível abrir o ficheiro da textura\n", texturePath);
 		exit(1);
 	}
 	fclose(file_ptr);
@@ -155,7 +140,6 @@ void loadBuffersData(int* index) {
 	}
 }
 
-// Desenha os eixos, caso a flag esteja ativa.
 void drawEixos() {
 	if (show_eixos) {
 		if (c->lights.size() > 0) glDisable(GL_LIGHTING);
@@ -180,7 +164,6 @@ void drawEixos() {
 	}
 }
 
-// Desenha a curva de catmull rom
 void drawCatmullRomCurve(vector<Point> controlPoints) {
 	if (c->lights.size() > 0) glDisable(GL_LIGHTING);
 	Point* pos = new Point();
@@ -217,6 +200,7 @@ void drawNormals(Figure* model) {
 	if (c->lights.size() > 0) glEnable(GL_LIGHTING);
 }
 
+// deleted no fim do programa
 Point* pos = new Point();
 Point* deriv = new Point();
 
@@ -290,7 +274,7 @@ void drawGroups(Group* group, int* index) {
 
 			// Texturas
 			const char* texture_file = f->texture_file.c_str();
-			if (texture_file != nullptr && *texture_file != '\0') { //* foi fornecido um ficheiro de textura?
+			if (texture_file != nullptr && *texture_file != '\0') {
 				glBindTexture(GL_TEXTURE_2D, textures[*index]);
 				glBindBuffer(GL_ARRAY_BUFFER, buffersTC[*index]);
 				glTexCoordPointer(2, GL_FLOAT, 0, 0);
@@ -302,8 +286,9 @@ void drawGroups(Group* group, int* index) {
 			glBindBuffer(GL_ARRAY_BUFFER, buffers[*index]);
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 			glDrawArrays(GL_TRIANGLES, 0, buffersSizes[*index]);
+
 			// Fazer unbind da textura
-			if (texture_file != nullptr && *texture_file != '\0') { //* só fazemos unbind se existir uma textura
+			if (texture_file != nullptr && *texture_file != '\0') {
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
@@ -317,7 +302,6 @@ void drawGroups(Group* group, int* index) {
 	}
 }
 
-// Devolve a constante GL_LIGHT(i) dado o seu índice
 int gl_light(int i) {
 	switch (i) {
 	case 0: return GL_LIGHT0;
@@ -331,7 +315,6 @@ int gl_light(int i) {
 	}
 	return -1;
 }
-
 
 void execute_lights() {
 
@@ -397,7 +380,6 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-// Deslocação da câmara no modo SPHERICAL
 void sphericalCamera() {
 	camx = radius * cos(beta_) * sin(alpha);
 	camy = radius * sin(beta_);
@@ -464,12 +446,11 @@ void renderScene(void) {
 	// clear buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// set the camera
-	glLoadIdentity(); // super pop, faz refresh a tudo.
+	glLoadIdentity();
 	if (cameraMode == SPHERICAL)
 		sphericalCamera();
 	gluLookAt(camx, camy, camz, lookAtx, lookAty, lookAtz, upx, upy, upz);
-	// Desenha os eixos, caso a flag esteja ativa.
+
 	drawEixos();
 	// figuras
 	glColor3f(WHITE);
@@ -478,7 +459,7 @@ void renderScene(void) {
 
 	int index = 0; // serve para seleccionar o buffer que vai ser lido
 	drawGroups(c->group, &index);
-	// FPS Count
+
 	frame++;
 	int time = glutGet(GLUT_ELAPSED_TIME);
 	if (time - timebase > 1000) {
@@ -488,13 +469,12 @@ void renderScene(void) {
 		timebase = time;
 		frame = 0;
 	}
-	// End of frame
+
 	glutSwapBuffers();
 }
 
-// Só altera a posição da camera, para debug.
 void specKeyProc(int key_code, int x, int y) {
-	x = y; y = x; // Para não aparecerem os warnings.
+	x = y; y = x;
 	switch (key_code) {
 	case GLUT_KEY_F1: {
 		freeze = !freeze;
@@ -545,9 +525,8 @@ void specKeyProc(int key_code, int x, int y) {
 	glutPostRedisplay();
 }
 
-// Só altera a posição da camera, para debug, e altera os modes para GL_FILL, GL_LINES, GL_POINT
 void keyProc(unsigned char key, int x, int y) {
-	x = y; y = x; // Para não aparecerem os warnings.
+	x = y; y = x; 
 	switch (key) {
 
 	case 'n': {
@@ -628,7 +607,7 @@ void keyProc(unsigned char key, int x, int y) {
 			float v_d[3] = { lookAtx - camx,lookAty - camy,lookAtz - camz }; normalize(v_d);
 			float aux[3] = { -camx, 0.0f, -camz };
 			alpha = PI + alpha;
-			beta_ = -beta_;// para evitar que o lookAt vá para um sítio completamente inesperado.
+			beta_ = -beta_;
 			lookAtx = camx + cos(beta_) * sin(alpha);
 			lookAty = camy + sin(beta_);
 			lookAtz = camz + cos(beta_) * cos(alpha);
@@ -664,8 +643,7 @@ void init() {
 	ilEnable(IL_ORIGIN_SET);
 	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
-	// Iluminação
-	if (c->lights.size() > 0) { //* definiu-se luz(es)?
+	if (c->lights.size() > 0) {
 		glEnable(GL_LIGHTING);
 		glEnable(GL_RESCALE_NORMAL);
 		if (c->lights.size() > 8) {
@@ -683,14 +661,12 @@ void init() {
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 
 	}
-	// Fim iluminação
 
 	// OpenGL settings
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	// glEnable(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -811,8 +787,8 @@ int main(int argc, char* argv[]) {
 	glutKeyboardFunc(keyProc);
 	glutSpecialFunc(specKeyProc);
 
-
 	init();
+
 	// enter GLUT's main cycle
 	glutMainLoop();
 
